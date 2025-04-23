@@ -9,7 +9,65 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          company_name: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+        }
+        Insert: {
+          company_name?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+        }
+        Update: {
+          company_name?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          client_name: string
+          client_role: string | null
+          content: string
+          created_at: string
+          id: string
+          status: Database["public"]["Enums"]["testimonial_status"]
+          user_id: string
+        }
+        Insert: {
+          client_name: string
+          client_role?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          status?: Database["public"]["Enums"]["testimonial_status"]
+          user_id: string
+        }
+        Update: {
+          client_name?: string
+          client_role?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          status?: Database["public"]["Enums"]["testimonial_status"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "testimonials_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +76,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      testimonial_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +191,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      testimonial_status: ["pending", "approved", "rejected"],
+    },
   },
 } as const
