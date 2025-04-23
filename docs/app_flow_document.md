@@ -9,6 +9,7 @@
 ## **2\. Sign Up / Login**
 
 * Email/password (Supabase Auth)
+* Google SSO Integration.
 
 ## **3\. Dashboard (User)**
 
