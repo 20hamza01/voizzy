@@ -39,6 +39,7 @@ export type Database = {
           id: string
           status: Database["public"]["Enums"]["testimonial_status"]
           user_id: string
+          views: number
         }
         Insert: {
           client_name: string
@@ -48,6 +49,7 @@ export type Database = {
           id?: string
           status?: Database["public"]["Enums"]["testimonial_status"]
           user_id: string
+          views?: number
         }
         Update: {
           client_name?: string
@@ -57,6 +59,7 @@ export type Database = {
           id?: string
           status?: Database["public"]["Enums"]["testimonial_status"]
           user_id?: string
+          views?: number
         }
         Relationships: [
           {
