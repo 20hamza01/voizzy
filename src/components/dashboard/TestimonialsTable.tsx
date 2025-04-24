@@ -19,7 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Check, X } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import type { Testimonial } from "@/pages/TestimonialsList";
+import type { Testimonial } from "@/types/testimonial";
 
 interface TestimonialsTableProps {
   testimonials: Testimonial[];
