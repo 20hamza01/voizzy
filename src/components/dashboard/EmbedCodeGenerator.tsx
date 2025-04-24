@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,10 +10,10 @@ import { toast } from "@/hooks/use-toast";
 import { Copy, Layout, Grid, List } from "lucide-react";
 
 interface EmbedCodeGeneratorProps {
-  userId?: string;  // Make userId optional to prevent TypeScript errors
+  userId?: string;
 }
 
-const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({ userId = '' }) => {  // Provide a default empty string
+const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({ userId = '' }) => {
   const [count, setCount] = useState<number>(3);
   const [layout, setLayout] = useState<"grid" | "list">("grid");
   const [currentTab, setCurrentTab] = useState<"script" | "iframe">("script");
