@@ -1,5 +1,5 @@
 
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
@@ -13,23 +13,42 @@ import { TestimonialStatusBadge } from "@/components/dashboard/TestimonialStatus
 import { useTestimonialRealtime } from "@/hooks/useTestimonialRealtime";
 
 const Dashboard = () => {
+  console.log("🏠 Dashboard - Component rendering");
   const { user } = useAuth();
+  console.log("👤 Dashboard - User:", user?.id);
+  
+  const [updateCounter, setUpdateCounter] = useState(0);
   const { testimonials, loading: testimonialsLoading, fetchTestimonials } = useTestimonials(user);
   const { stats, loading: statsLoading } = useDashboardStats(user?.id);
+  
+  console.log("📊 Dashboard - Testimonials state:", { 
+    count: testimonials.length, 
+    loading: testimonialsLoading,
+    updateCounter
+  });
 
   const handleTestimonialUpdate = useCallback(() => {
+    console.log("🔄 Dashboard - handleTestimonialUpdate called");
     if (user) {
+      console.log("📡 Dashboard - Fetching testimonials");
       fetchTestimonials("all");
+      setUpdateCounter(prev => prev + 1);
     }
   }, [user, fetchTestimonials]);
 
   useEffect(() => {
+    console.log("⚡ Dashboard - Initial fetch effect triggered");
     handleTestimonialUpdate();
+    console.log("✅ Dashboard - Initial fetch effect completed");
   }, [handleTestimonialUpdate]);
 
   useTestimonialRealtime(user, handleTestimonialUpdate);
 
   const recentTestimonials = testimonials.slice(0, 3);
+  console.log("📜 Dashboard - Recent testimonials:", { 
+    count: recentTestimonials.length,
+    ids: recentTestimonials.map(t => t.id)
+  });
 
   const statsData = [
     { name: "Total Testimonials", value: stats.totalTestimonials.toString() },
@@ -106,37 +125,40 @@ const Dashboard = () => {
               </div>
             ) : (
               <div className="space-y-4">
-                {recentTestimonials.map((testimonial) => (
-                  <div
-                    key={testimonial.id}
-                    className="flex flex-col gap-4 border-b pb-4 last:border-0 last:pb-0"
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <p className="font-medium">{testimonial.client_name}</p>
-                          <span className="text-xs text-gray-500">
-                            {testimonial.client_role || ""}
-                          </span>
+                {recentTestimonials.map((testimonial) => {
+                  console.log(`📝 Dashboard - Rendering testimonial: ${testimonial.id}`);
+                  return (
+                    <div
+                      key={testimonial.id}
+                      className="flex flex-col gap-4 border-b pb-4 last:border-0 last:pb-0"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <p className="font-medium">{testimonial.client_name}</p>
+                            <span className="text-xs text-gray-500">
+                              {testimonial.client_role || ""}
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-600 line-clamp-2">
+                            {testimonial.content}
+                          </p>
                         </div>
-                        <p className="text-sm text-gray-600 line-clamp-2">
-                          {testimonial.content}
-                        </p>
+                        <TestimonialStatusBadge 
+                          status={testimonial.status} 
+                          views={testimonial.views}
+                        />
                       </div>
-                      <TestimonialStatusBadge 
-                        status={testimonial.status} 
-                        views={testimonial.views}
-                      />
-                    </div>
 
-                    {testimonial.ai_summary && (
-                      <div className="bg-slate-50 p-4 rounded-lg space-y-2">
-                        <h4 className="text-sm font-semibold text-slate-900">AI Insights</h4>
-                        <p className="text-sm text-slate-600">{testimonial.ai_summary}</p>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                      {testimonial.ai_summary && (
+                        <div className="bg-slate-50 p-4 rounded-lg space-y-2">
+                          <h4 className="text-sm font-semibold text-slate-900">AI Insights</h4>
+                          <p className="text-sm text-slate-600">{testimonial.ai_summary}</p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
                 <div className="mt-6 text-center">
                   <Button variant="outline" asChild>
                     <Link to="/dashboard/testimonials">View All Testimonials</Link>

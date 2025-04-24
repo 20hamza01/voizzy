@@ -11,8 +11,14 @@ export const useTestimonialRealtime = (
   const { toast } = useToast();
 
   useEffect(() => {
-    if (!user) return;
+    console.log("🔄 useTestimonialRealtime - Effect triggered", { userId: user?.id });
+    
+    if (!user) {
+      console.log("❌ useTestimonialRealtime - No user, returning early");
+      return;
+    }
 
+    console.log("🔌 useTestimonialRealtime - Setting up channel subscription");
     const channel = supabase
       .channel("testimonials-changes")
       .on(
@@ -24,7 +30,7 @@ export const useTestimonialRealtime = (
           filter: `user_id=eq.${user.id}`,
         },
         (payload) => {
-          console.log("New testimonial received!", payload);
+          console.log("✨ useTestimonialRealtime - New testimonial received!", payload);
           onUpdate();
           toast({
             title: "New Testimonial",
@@ -41,7 +47,7 @@ export const useTestimonialRealtime = (
           filter: `user_id=eq.${user.id}`,
         },
         (payload) => {
-          console.log("Testimonial updated!", payload);
+          console.log("📝 useTestimonialRealtime - Testimonial updated!", payload);
           onUpdate();
         }
       )
@@ -54,13 +60,18 @@ export const useTestimonialRealtime = (
           filter: `user_id=eq.${user.id}`,
         },
         (payload) => {
-          console.log("Testimonial deleted!", payload);
+          console.log("🗑️ useTestimonialRealtime - Testimonial deleted!", payload);
           onUpdate();
         }
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log(`🎯 useTestimonialRealtime - Subscription status: ${status}`);
+      });
+
+    console.log("🔄 useTestimonialRealtime - Channel setup complete");
 
     return () => {
+      console.log("🔌 useTestimonialRealtime - Cleaning up channel subscription");
       supabase.removeChannel(channel);
     };
   }, [user, onUpdate, toast]);
