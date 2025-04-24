@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
@@ -15,14 +14,18 @@ import { useTestimonialRealtime } from "@/hooks/useTestimonialRealtime";
 const Dashboard = () => {
   const { user } = useAuth();
   const { testimonials, loading: testimonialsLoading, fetchTestimonials } = useTestimonials(user);
-  const { stats, loading: statsLoading, error: statsError } = useDashboardStats(user?.id);
+  const { stats, loading: statsLoading } = useDashboardStats(user?.id);
 
-  // Set up real-time updates
+  useEffect(() => {
+    if (user) {
+      fetchTestimonials("all");
+    }
+  }, [user, fetchTestimonials]);
+
   useTestimonialRealtime(user, () => {
     fetchTestimonials("all");
   });
 
-  // Get the 3 most recent testimonials
   const recentTestimonials = testimonials.slice(0, 3);
 
   const statsData = [
@@ -42,7 +45,6 @@ const Dashboard = () => {
           </Button>
         </div>
 
-        {/* Stats */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {statsData.map((stat) => (
             <Card key={stat.name}>
@@ -63,7 +65,6 @@ const Dashboard = () => {
           ))}
         </div>
 
-        {/* Form sharing section */}
         <Card>
           <CardHeader>
             <CardTitle>Your Testimonial Form</CardTitle>
@@ -76,7 +77,6 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Recent testimonials */}
         <Card>
           <CardHeader>
             <CardTitle>Recent Testimonials</CardTitle>
