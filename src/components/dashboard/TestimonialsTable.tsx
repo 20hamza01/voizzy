@@ -8,18 +8,10 @@ import {
   TableHeader, 
   TableRow 
 } from "@/components/ui/table";
-import { 
-  Pagination, 
-  PaginationContent, 
-  PaginationItem, 
-  PaginationLink, 
-  PaginationNext, 
-  PaginationPrevious 
-} from "@/components/ui/pagination";
-import { Button } from "@/components/ui/button";
-import { Check, X } from "lucide-react";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import type { Testimonial } from "@/types/testimonial";
+import { TestimonialStatusBadge } from "./TestimonialStatusBadge";
+import { TestimonialActions } from "./TestimonialActions";
+import { TestimonialPagination } from "./TestimonialPagination";
 
 interface TestimonialsTableProps {
   testimonials: Testimonial[];
@@ -47,22 +39,6 @@ const TestimonialsTable: React.FC<TestimonialsTableProps> = ({
       month: "short",
       day: "numeric",
     });
-  };
-
-  const getStatusBadgeClass = (status: string) => {
-    switch (status) {
-      case "approved":
-        return "bg-green-100 text-green-800";
-      case "rejected":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-yellow-100 text-yellow-800";
-    }
-  };
-
-  // Handle page change
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
   };
 
   return (
@@ -98,102 +74,25 @@ const TestimonialsTable: React.FC<TestimonialsTableProps> = ({
                   </TableCell>
                   <TableCell>{formatDate(testimonial.created_at)}</TableCell>
                   <TableCell>
-                    <span
-                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeClass(
-                        testimonial.status
-                      )}`}
-                    >
-                      {testimonial.status.charAt(0).toUpperCase() + testimonial.status.slice(1)}
-                    </span>
+                    <TestimonialStatusBadge status={testimonial.status} />
                   </TableCell>
                   <TableCell>
-                    <div className="flex space-x-2">
-                      {testimonial.status === "pending" && (
-                        <>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="text-green-600 border-green-600 hover:bg-green-50"
-                            onClick={() => handleStatusChange(testimonial.id, "approved")}
-                          >
-                            <Check className="h-4 w-4 mr-1" /> Approve
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="text-red-600 border-red-600 hover:bg-red-50"
-                            onClick={() => handleStatusChange(testimonial.id, "rejected")}
-                          >
-                            <X className="h-4 w-4 mr-1" /> Reject
-                          </Button>
-                        </>
-                      )}
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="text-gray-600 border-gray-600 hover:bg-gray-50"
-                          >
-                            Delete
-                          </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              This action cannot be undone. This will permanently delete the
-                              testimonial from your account.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction
-                              onClick={() => handleDelete(testimonial.id)}
-                              className="bg-red-600 hover:bg-red-700 text-white"
-                            >
-                              Delete
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    </div>
+                    <TestimonialActions
+                      testimonial={testimonial}
+                      handleStatusChange={handleStatusChange}
+                      handleDelete={handleDelete}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
 
-          {totalPages > 1 && (
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                    className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                  />
-                </PaginationItem>
-                
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <PaginationItem key={page}>
-                    <PaginationLink
-                      isActive={currentPage === page}
-                      onClick={() => handlePageChange(page)}
-                    >
-                      {page}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
-                
-                <PaginationItem>
-                  <PaginationNext
-                    onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          )}
+          <TestimonialPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
         </>
       )}
     </div>
