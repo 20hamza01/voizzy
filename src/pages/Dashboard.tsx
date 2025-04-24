@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import ShareTestimonialForm from "@/components/dashboard/ShareTestimonialForm";
 
 const Dashboard = () => {
   // Mock data - will be replaced with actual data from Supabase
@@ -67,6 +68,19 @@ const Dashboard = () => {
             </Card>
           ))}
         </div>
+
+        {/* Form sharing section */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Your Testimonial Form</CardTitle>
+            <CardDescription>
+              Share this form with your clients to collect testimonials
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ShareTestimonialForm />
+          </CardContent>
+        </Card>
 
         {/* Recent testimonials with AI insights */}
         <Card>
@@ -150,37 +164,6 @@ const Dashboard = () => {
               <Button variant="outline" asChild>
                 <Link to="/dashboard/testimonials">View All Testimonials</Link>
               </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Form info */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Your Testimonial Form</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col md:flex-row md:items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <div className="mb-4 md:mb-0">
-                <h4 className="font-medium">Share your form with clients</h4>
-                <p className="text-sm text-gray-600">Your unique form URL:</p>
-                <div className="flex items-center mt-1">
-                  <code className="bg-gray-100 px-2 py-1 rounded text-sm">https://voizzy.app/t/your-business-name</code>
-                  <Button variant="ghost" size="sm" className="ml-2" onClick={() => {
-                    navigator.clipboard.writeText("https://voizzy.app/t/your-business-name");
-                  }}>
-                    Copy
-                  </Button>
-                </div>
-              </div>
-              <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2">
-                <Button variant="outline" size="sm" asChild>
-                  <Link to="/dashboard/form">Customize Form</Link>
-                </Button>
-                <Button size="sm" asChild>
-                  <Link to="/dashboard/form">Preview</Link>
-                </Button>
-              </div>
             </div>
           </CardContent>
         </Card>
