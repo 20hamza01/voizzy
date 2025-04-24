@@ -6,12 +6,16 @@ import { toast } from "sonner";
 import { Copy, CheckCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
-const ShareTestimonialForm = () => {
+interface ShareTestimonialFormProps {
+  userId?: string;
+}
+
+const ShareTestimonialForm: React.FC<ShareTestimonialFormProps> = ({ userId }) => {
   const { user } = useAuth();
   const [copied, setCopied] = useState(false);
   
   // Generate the testimonial collection URL
-  const formUrl = user ? `${window.location.origin}/collect/${user.id}` : "";
+  const formUrl = userId ? `${window.location.origin}/collect/${userId}` : "";
   
   const copyToClipboard = async () => {
     try {
