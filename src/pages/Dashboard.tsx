@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
@@ -22,7 +21,10 @@ const Dashboard = () => {
       type: "video",
       content: "Working with this team has been a game-changer for our business...",
       date: "2 days ago",
-      status: "approved"
+      status: "approved",
+      ai_summary: "Positive review highlighting transformative business impact",
+      sentiment_score: 0.9,
+      key_points: ["Game-changing impact", "Business transformation", "Positive collaboration"]
     },
     { 
       id: "2", 
@@ -66,12 +68,12 @@ const Dashboard = () => {
           ))}
         </div>
 
-        {/* Recent testimonials */}
+        {/* Recent testimonials with AI insights */}
         <Card>
           <CardHeader>
             <CardTitle>Recent Testimonials</CardTitle>
             <CardDescription>
-              Your most recent client testimonials
+              Your most recent client testimonials with AI-powered insights
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -79,30 +81,68 @@ const Dashboard = () => {
               {recentTestimonials.map((testimonial) => (
                 <div
                   key={testimonial.id}
-                  className="flex items-start justify-between border-b pb-4 last:border-0 last:pb-0"
+                  className="flex flex-col gap-4 border-b pb-4 last:border-0 last:pb-0"
                 >
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <p className="font-medium">{testimonial.name}</p>
-                      <span className="text-xs text-gray-500">{testimonial.company}</span>
-                      <span className="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-0.5 rounded">
-                        {testimonial.type}
+                  <div className="flex items-start justify-between">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <p className="font-medium">{testimonial.name}</p>
+                        <span className="text-xs text-gray-500">{testimonial.company}</span>
+                        <span className="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-0.5 rounded">
+                          {testimonial.type}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600 line-clamp-2">{testimonial.content}</p>
+                      <p className="text-xs text-gray-500">{testimonial.date}</p>
+                    </div>
+                    <div>
+                      <span
+                        className={`text-xs px-2 py-1 rounded-full ${
+                          testimonial.status === "approved"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-yellow-100 text-yellow-800"
+                        }`}
+                      >
+                        {testimonial.status === "approved" ? "Approved" : "Pending"}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-600 line-clamp-2">{testimonial.content}</p>
-                    <p className="text-xs text-gray-500">{testimonial.date}</p>
                   </div>
-                  <div>
-                    <span
-                      className={`text-xs px-2 py-1 rounded-full ${
-                        testimonial.status === "approved"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-yellow-100 text-yellow-800"
-                      }`}
-                    >
-                      {testimonial.status === "approved" ? "Approved" : "Pending"}
-                    </span>
-                  </div>
+
+                  {/* AI Insights Section */}
+                  {testimonial.ai_summary && (
+                    <div className="bg-slate-50 p-4 rounded-lg space-y-2">
+                      <h4 className="text-sm font-semibold text-slate-900">AI Insights</h4>
+                      <p className="text-sm text-slate-600">{testimonial.ai_summary}</p>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-medium text-slate-700">Sentiment:</span>
+                        <span className={`text-xs px-2 py-1 rounded-full ${
+                          testimonial.sentiment_score > 0.5 
+                            ? "bg-green-100 text-green-800" 
+                            : testimonial.sentiment_score < -0.5 
+                            ? "bg-red-100 text-red-800"
+                            : "bg-yellow-100 text-yellow-800"
+                        }`}>
+                          {testimonial.sentiment_score > 0.5 
+                            ? "Very Positive" 
+                            : testimonial.sentiment_score < -0.5 
+                            ? "Negative" 
+                            : "Neutral"}
+                        </span>
+                      </div>
+                      {testimonial.key_points && (
+                        <div className="flex flex-wrap gap-2">
+                          {testimonial.key_points.map((point, index) => (
+                            <span
+                              key={index}
+                              className="text-xs bg-white px-2 py-1 rounded border border-slate-200"
+                            >
+                              {point}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
