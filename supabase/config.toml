@@ -1,1 +1,27 @@
+
 project_id = "zksdcehnfspmcxzwnxbk"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage"]
+
+[db]
+port = 54322
+
+[studio]
+enabled = true
+port = 54323
+
+[inbucket]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+
+[auth]
+enabled = true
+
+[functions.get-public-testimonials]
+verify_jwt = false

@@ -10,6 +10,7 @@ import TestimonialsList from "./pages/TestimonialsList";
 import TestimonialForm from "./pages/TestimonialForm";
 import TestimonialSuccess from "./pages/TestimonialSuccess";
 import Onboarding from "./pages/Onboarding";
+import EmbedWall from "./pages/EmbedWall";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/collect/:userId" element={<TestimonialForm />} />
           <Route path="/collect/:userId/success" element={<TestimonialSuccess />} />
+          <Route path="/embed/:userId" element={<EmbedWall />} /> {/* New embed route */}
 
           {/* Protected routes */}
           <Route
