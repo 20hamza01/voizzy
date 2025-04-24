@@ -1,12 +1,22 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthForm from "@/components/auth/AuthForm";
 import LandingLayout from "@/components/layout/LandingLayout";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/components/ui/use-toast";
 
 const Register = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
 
   const handleRegister = async (email: string, password: string) => {
     const { error } = await supabase.auth.signUp({
@@ -15,11 +25,16 @@ const Register = () => {
     });
 
     if (error) {
+      if (error.message.includes("already registered")) {
+        throw new Error("This email is already registered");
+      }
       throw error;
     }
 
-    // Redirect to onboarding after successful registration
-    navigate("/onboarding");
+    toast({
+      title: "Registration successful!",
+      description: "Please check your email to verify your account.",
+    });
   };
 
   return (

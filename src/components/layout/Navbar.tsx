@@ -1,9 +1,19 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 const Navbar = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/");
+  };
+
   return (
     <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
@@ -24,12 +34,23 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4">
-          <Button asChild variant="ghost">
-            <Link to="/login">Sign in</Link>
-          </Button>
-          <Button asChild>
-            <Link to="/register">Sign up</Link>
-          </Button>
+          {user ? (
+            <>
+              <Button asChild variant="ghost">
+                <Link to="/dashboard">Dashboard</Link>
+              </Button>
+              <Button onClick={handleLogout}>Sign out</Button>
+            </>
+          ) : (
+            <>
+              <Button asChild variant="ghost">
+                <Link to="/login">Sign in</Link>
+              </Button>
+              <Button asChild>
+                <Link to="/register">Sign up</Link>
+              </Button>
+            </>
+          )}
         </div>
       </nav>
     </header>
