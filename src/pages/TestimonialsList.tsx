@@ -39,8 +39,10 @@ const TestimonialsList = () => {
         .eq("user_id", user.id)
         .order("created_at", { ascending: false });
 
+      // Only apply the status filter if it's not "all"
       if (statusFilter !== "all") {
-        query = query.eq("status", statusFilter);
+        // Fix: Type assertion for the status filter
+        query = query.eq("status", statusFilter as "pending" | "approved" | "rejected");
       }
 
       const { data, error } = await query;
