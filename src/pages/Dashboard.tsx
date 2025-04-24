@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+
+import React, { useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
@@ -16,15 +17,17 @@ const Dashboard = () => {
   const { testimonials, loading: testimonialsLoading, fetchTestimonials } = useTestimonials(user);
   const { stats, loading: statsLoading } = useDashboardStats(user?.id);
 
-  useEffect(() => {
+  const handleTestimonialUpdate = useCallback(() => {
     if (user) {
       fetchTestimonials("all");
     }
   }, [user, fetchTestimonials]);
 
-  useTestimonialRealtime(user, () => {
-    fetchTestimonials("all");
-  });
+  useEffect(() => {
+    handleTestimonialUpdate();
+  }, [handleTestimonialUpdate]);
+
+  useTestimonialRealtime(user, handleTestimonialUpdate);
 
   const recentTestimonials = testimonials.slice(0, 3);
 

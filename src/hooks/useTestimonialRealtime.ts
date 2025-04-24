@@ -18,21 +18,44 @@ export const useTestimonialRealtime = (
       .on(
         "postgres_changes",
         {
-          event: "*",
+          event: "INSERT",
           schema: "public",
           table: "testimonials",
           filter: `user_id=eq.${user.id}`,
         },
         (payload) => {
-          console.log("Change received!", payload);
+          console.log("New testimonial received!", payload);
           onUpdate();
-          
-          if (payload.eventType === "INSERT") {
-            toast({
-              title: "New Testimonial",
-              description: "You've received a new testimonial!",
-            });
-          }
+          toast({
+            title: "New Testimonial",
+            description: "You've received a new testimonial!",
+          });
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "testimonials",
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          console.log("Testimonial updated!", payload);
+          onUpdate();
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "testimonials",
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          console.log("Testimonial deleted!", payload);
+          onUpdate();
         }
       )
       .subscribe();
