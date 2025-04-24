@@ -1,7 +1,8 @@
-
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface NavItem {
   name: string;
@@ -21,7 +22,14 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user } = useAuth();
   
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/");
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="flex min-h-screen">
@@ -56,11 +64,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             <div className="flex-shrink-0 flex border-t p-4">
               <Button
                 variant="outline"
-                onClick={() => {
-                  // This will be replaced with actual logout logic
-                  console.log("Logout clicked");
-                  window.location.href = "/";
-                }}
+                onClick={handleLogout}
                 className="w-full"
               >
                 Sign Out
