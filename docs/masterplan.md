@@ -31,7 +31,6 @@ Voizzy removes friction from gathering social proof by providing a clean, easy-t
 * Lightweight admin panel for user management.
 
 * Email/password signup and login (Supabase Auth).
-* Google SSO Integration: signup and login.
 
 ## **Pricing Tiers**
 
