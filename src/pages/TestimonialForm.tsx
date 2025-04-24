@@ -50,9 +50,9 @@ const TestimonialForm = () => {
     setIsSubmitting(true);
 
     try {
-      // Submit testimonial to Supabase
+      // Submit testimonial to Supabase - Fix: Directly spread the values object which contains all required fields
       const { error } = await supabase.from("testimonials").insert({
-        ...values,
+        ...values, // This includes client_name and content from the form
         user_id: userId,
         status: "pending",
       });
