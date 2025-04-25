@@ -20,11 +20,11 @@ Voizzy removes friction from gathering social proof by providing a clean, easy-t
 
 * Lean, web-first experience.
 
-* Text testimonials only (audio/video planned for future).
+* Text testimonials only.
 
 * Voizzy-branded testimonial request form (no customization in MVP).
 
-* "Wall of Love" embeddable widget.
+* "Wall of Love" embeddable bubble widget.
 
 * Dashboard for viewing/approving/deleting testimonials.
 
@@ -54,13 +54,9 @@ Voizzy removes friction from gathering social proof by providing a clean, easy-t
 
   * No form customization
 
-  * No AI features
-
 * **Premium Plan – $49/month**
 
   * Everything in Basic Plan
-
-  * AI testimonial summarization
 
   * Customizable testimonial form (Color \+ Logo)
 
