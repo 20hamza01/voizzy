@@ -54,12 +54,12 @@ const TestimonialForm = () => {
     try {
       console.log("📝 Submitting testimonial:", values);
       
-      // Create an insert object with the correct required fields
+      // Ensure user_id is always set, even for public submissions
       const insertData = {
         client_name: values.client_name,
         content: values.content,
         client_role: values.client_role || null,
-        user_id: userId,
+        user_id: userId,  // Always set the user_id to the collection link's owner
         status: "pending" as const,
       };
       
