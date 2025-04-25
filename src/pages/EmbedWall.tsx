@@ -45,7 +45,7 @@ const EmbedWall = () => {
       try {
         console.log("📡 EmbedWall - Fetching testimonials from edge function");
         const response = await fetch(
-          `https://zksdcehnfspmcxzwnxbk.functions.supabase.co/get-public-testimonials?userId=${userId}&limit=${limit}&layout=${layout}`
+          `https://zksdcehnfspmcxzwnxbk.functions.supabase.co/get-public-testimonials?userId=${userId}&limit=${limit}&layout=${layout}&format=json`
         );
         
         if (!response.ok) {

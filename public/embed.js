@@ -24,7 +24,6 @@
 
   // Set loading state
   container.innerHTML = '<div style="display: flex; justify-content: center; padding: 20px;"><div style="border: 3px solid rgba(0,0,0,0.1); border-radius: 50%; border-top: 3px solid #3498db; width: 30px; height: 30px; animation: voizzy-spin 1s linear infinite;"></div></div>';
-  container.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif';
   
   // Add the animation style
   const styleElement = document.createElement('style');
@@ -33,27 +32,19 @@
 
   // Fetch testimonials from the API
   const baseUrl = currentScript.src.replace('/embed.js', '');
-  const apiUrl = `${baseUrl}/embed/${userId}?limit=${limit}&layout=${layout}`;
+  // Request HTML format specifically for the script embed
+  const apiUrl = `${baseUrl}/functions/get-public-testimonials?userId=${userId}&limit=${limit}&layout=${layout}&format=html`;
 
   fetch(apiUrl)
     .then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      return response.text();
+      return response.text(); // Get response as text since we're expecting HTML
     })
     .then(html => {
-      // Extract just the testimonials container from the HTML
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      const testimonialContainer = doc.querySelector('.bg-gray-50');
-      
-      if (testimonialContainer) {
-        container.innerHTML = '';
-        container.appendChild(testimonialContainer);
-      } else {
-        throw new Error('Could not find testimonials in response');
-      }
+      // Set the HTML directly since we're now getting formatted HTML from the server
+      container.innerHTML = html;
     })
     .catch(error => {
       console.error('Error loading Voizzy testimonials:', error);
