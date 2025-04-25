@@ -1,28 +1,28 @@
+
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Slider } from "@/components/ui/slider";
 import { toast } from "@/hooks/use-toast";
-import { Copy, Layout, Grid, List } from "lucide-react";
+import { Grid, List, Copy } from "lucide-react";
 
 interface EmbedCodeGeneratorProps {
   userId?: string;
+  planType?: string;
 }
 
-const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({ userId = '' }) => {
+const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({ 
+  userId = '',
+  planType = 'free'
+}) => {
   const [count, setCount] = useState<number>(3);
   const [layout, setLayout] = useState<"grid" | "list">("grid");
-  const [currentTab, setCurrentTab] = useState<"script" | "iframe">("script");
+  const isPremium = planType !== 'free';
 
   const baseUrl = window.location.origin;
   const embedUrl = `${baseUrl}/embed/${userId}?limit=${count}&layout=${layout}`;
-
-  const scriptCode = `<div id="voizzy-testimonials"></div>
-<script src="${baseUrl}/embed.js" data-user="${userId}" data-limit="${count}" data-layout="${layout}"></script>`;
 
   const iframeCode = `<iframe 
   src="${embedUrl}" 
@@ -31,17 +31,13 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({ userId = '' }) 
   style="border:none;overflow:hidden" 
   scrolling="no" 
   frameborder="0" 
-  allowTransparency="true" 
-  allow="encrypted-media">
+  allowTransparency="true">
 </iframe>`;
 
   const handleCopyCode = () => {
-    const codeToCopy = currentTab === "script" ? scriptCode : iframeCode;
-    navigator.clipboard.writeText(codeToCopy);
+    navigator.clipboard.writeText(iframeCode);
     toast({ title: "Copied!", description: "Embed code copied to clipboard" });
   };
-
-  const getEmbedCode = () => currentTab === "script" ? scriptCode : iframeCode;
 
   return (
     <Card>
@@ -58,10 +54,15 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({ userId = '' }) 
             <Slider 
               value={[count]} 
               min={1} 
-              max={10} 
+              max={isPremium ? 10 : 3} 
               step={1} 
               onValueChange={(values) => setCount(values[0])} 
             />
+            {!isPremium && (
+              <p className="text-sm text-muted-foreground">
+                Upgrade to premium to display more than 3 testimonials
+              </p>
+            )}
           </div>
 
           <div className="space-y-3">
@@ -86,22 +87,9 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({ userId = '' }) 
 
           <div className="space-y-3 pt-4 border-t border-gray-100">
             <Label>Embed Code</Label>
-            <Tabs defaultValue="script" onValueChange={(value) => setCurrentTab(value as "script" | "iframe")}>
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="script">Script</TabsTrigger>
-                <TabsTrigger value="iframe">iFrame</TabsTrigger>
-              </TabsList>
-              <TabsContent value="script" className="space-y-3 mt-4">
-                <div className="bg-gray-100 p-4 rounded overflow-x-auto">
-                  <pre className="text-sm text-gray-800">{scriptCode}</pre>
-                </div>
-              </TabsContent>
-              <TabsContent value="iframe" className="space-y-3 mt-4">
-                <div className="bg-gray-100 p-4 rounded overflow-x-auto">
-                  <pre className="text-sm text-gray-800">{iframeCode}</pre>
-                </div>
-              </TabsContent>
-            </Tabs>
+            <div className="bg-gray-100 p-4 rounded overflow-x-auto">
+              <pre className="text-sm text-gray-800">{iframeCode}</pre>
+            </div>
             <Button onClick={handleCopyCode} className="w-full flex items-center gap-2">
               <Copy className="h-4 w-4" /> Copy Code
             </Button>

@@ -7,7 +7,6 @@ export interface DashboardStats {
   totalTestimonials: number;
   pendingTestimonials: number;
   approvedTestimonials: number;
-  totalViews: number;
 }
 
 export const useDashboardStats = (userId: string | undefined) => {
@@ -15,7 +14,6 @@ export const useDashboardStats = (userId: string | undefined) => {
     totalTestimonials: 0,
     pendingTestimonials: 0,
     approvedTestimonials: 0,
-    totalViews: 0,
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -27,7 +25,7 @@ export const useDashboardStats = (userId: string | undefined) => {
     try {
       const { data: testimonials, error: fetchError } = await supabase
         .from("testimonials")
-        .select("status, views")
+        .select("status")
         .eq("user_id", userId);
 
       if (fetchError) throw fetchError;
@@ -39,13 +37,11 @@ export const useDashboardStats = (userId: string | undefined) => {
             acc.pendingTestimonials + (testimonial.status === "pending" ? 1 : 0),
           approvedTestimonials:
             acc.approvedTestimonials + (testimonial.status === "approved" ? 1 : 0),
-          totalViews: acc.totalViews + (testimonial.views || 0),
         }),
         {
           totalTestimonials: 0,
           pendingTestimonials: 0,
           approvedTestimonials: 0,
-          totalViews: 0,
         }
       );
 
