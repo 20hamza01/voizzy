@@ -14,7 +14,7 @@
 
 * Email/password sign-up/login
 
-* User dashboard: view, approve, delete testimonials
+* User dashboard: view, approve, delete testimonials, update status (approved/rejected)
 
 * Submit testimonial via Voizzy-branded form (text-only)
 
@@ -33,13 +33,8 @@
 
 * Customizable form (logo \+ colors)
 
-* AI-powered testimonial summarization (OpenAI API)
-
-* Multi-form support
-
 ## **Limitations**
 
-* Only one form per user
 
 * No customization for Free or Basic plans
 
