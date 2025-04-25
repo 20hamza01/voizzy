@@ -25,4 +25,3 @@ enabled = true
 
 [functions.get-public-testimonials]
 verify_jwt = false
-
