@@ -1,37 +1,19 @@
 
-import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React from "react";
+import { useParams } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { toast } from "sonner";
 import { Loader } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-
-const testimonialSchema = z.object({
-  client_name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
-  }),
-  client_role: z.string().optional(),
-  content: z.string().min(10, {
-    message: "Testimonial must be at least 10 characters.",
-  }).max(1000, {
-    message: "Testimonial cannot exceed 1000 characters."
-  })
-});
-
-type TestimonialFormValues = z.infer<typeof testimonialSchema>;
+import { testimonialSchema, type TestimonialFormValues } from "@/schemas/testimonialSchema";
+import { useTestimonialSubmit } from "@/hooks/useTestimonialSubmit";
+import { TestimonialFormFields } from "@/components/testimonial/TestimonialFormFields";
 
 const TestimonialForm = () => {
   const { userId } = useParams<{ userId: string }>();
-  const navigate = useNavigate();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const { handleSubmit, isSubmitting, submitError } = useTestimonialSubmit(userId);
   
   const form = useForm<TestimonialFormValues>({
     resolver: zodResolver(testimonialSchema),
@@ -41,95 +23,6 @@ const TestimonialForm = () => {
       content: "",
     },
   });
-
-  const onSubmit = async (values: TestimonialFormValues) => {
-    if (!userId) {
-      toast.error("Invalid form link");
-      return;
-    }
-
-    setIsSubmitting(true);
-    setSubmitError(null);
-
-    try {
-      console.log("📝 Submitting testimonial:", values);
-      
-      // Ensure user_id is always set, even for public submissions
-      const insertData = {
-        client_name: values.client_name,
-        content: values.content,
-        client_role: values.client_role || null,
-        user_id: userId,  // Always set the user_id to the collection link's owner
-        status: "pending" as const,
-      };
-      
-      console.log("🔄 Sending testimonial to Supabase:", insertData);
-      
-      // Submit testimonial to Supabase
-      const { data: testimonialData, error } = await supabase
-        .from("testimonials")
-        .insert(insertData)
-        .select()
-        .single();
-
-      if (error) {
-        console.error("❌ Error submitting testimonial:", error);
-        
-        // Show a more specific error message
-        if (error.message.includes("limit")) {
-          setSubmitError("This user has reached their testimonial limit. Please contact them directly.");
-          toast.error("Testimonial limit reached");
-        } else {
-          setSubmitError(`Error submitting: ${error.message}`);
-          toast.error("Failed to submit testimonial");
-        }
-        return;
-      }
-
-      console.log("✅ Testimonial submitted successfully:", testimonialData);
-
-      // Process testimonial with AI
-      try {
-        console.log("🧠 Starting AI processing for testimonial:", testimonialData.id);
-        
-        const processResponse = await supabase.functions.invoke(
-          "process-testimonial",
-          {
-            body: { 
-              content: values.content,
-              testimonialId: testimonialData.id
-            },
-          }
-        );
-        
-        if (processResponse.error) {
-          console.warn("⚠️ AI processing warning:", processResponse.error);
-          // Non-blocking - we continue even if AI processing fails
-        } else {
-          console.log("✨ AI processing completed successfully:", processResponse.data);
-        }
-      } catch (aiError) {
-        console.warn("⚠️ AI processing error:", aiError);
-        // Non-blocking - we continue even if AI processing fails
-      }
-
-      // Clear any previous errors
-      setSubmitError(null);
-      
-      // Show success message
-      toast.success("Testimonial submitted successfully!");
-      
-      // Navigate to success page - ensure the path is correct
-      console.log(`🔄 Navigating to success page: /collect/${userId}/success`);
-      navigate(`/collect/${userId}/success`);
-    } catch (error: any) {
-      console.error("💥 Submission error:", error);
-      setSubmitError(error.message || "Failed to submit testimonial. Please try again.");
-      toast.error("Submission error");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -148,58 +41,8 @@ const TestimonialForm = () => {
         )}
         
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="client_name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Your Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="John Smith" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="client_role"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Your Role/Title (Optional)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="CEO at Example Corp" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    This helps provide context to your testimonial
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="content"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Your Testimonial</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Share your experience working with us..."
-                      className="min-h-[120px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    {field.value ? `${field.value.length}/1000 characters` : "0/1000 characters"}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+            <TestimonialFormFields form={form} />
             
             <Button 
               type="submit" 
