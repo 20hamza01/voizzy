@@ -12,6 +12,7 @@ import type { Testimonial } from "@/types/testimonial";
 import { TestimonialStatusBadge } from "./TestimonialStatusBadge";
 import { TestimonialActions } from "./TestimonialActions";
 import { TestimonialPagination } from "./TestimonialPagination";
+import { StarRating } from "@/components/ui/star-rating";
 
 interface TestimonialsTableProps {
   testimonials: Testimonial[];
@@ -41,13 +42,6 @@ const TestimonialsTable: React.FC<TestimonialsTableProps> = ({
     });
   };
 
-  const getDisplayContent = (testimonial: Testimonial) => {
-    if (testimonial.selected_version === "enhanced" && testimonial.ai_enhanced_content) {
-      return testimonial.ai_enhanced_content;
-    }
-    return testimonial.content;
-  };
-
   return (
     <div className="space-y-4">
       {loading ? (
@@ -66,6 +60,7 @@ const TestimonialsTable: React.FC<TestimonialsTableProps> = ({
                 <TableHead>Client</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead className="hidden md:table-cell">Testimonial</TableHead>
+                <TableHead>Rating</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Actions</TableHead>
@@ -78,15 +73,15 @@ const TestimonialsTable: React.FC<TestimonialsTableProps> = ({
                   <TableCell>{testimonial.client_role || "-"}</TableCell>
                   <TableCell className="hidden md:table-cell max-w-xs">
                     <div className="line-clamp-2">
-                      {getDisplayContent(testimonial)}
-                      {testimonial.selected_version === "enhanced" && (
-                        <span className="ml-2 text-xs text-blue-600">(Enhanced)</span>
-                      )}
+                      {testimonial.content}
                     </div>
+                  </TableCell>
+                  <TableCell>
+                    <StarRating value={testimonial.rating || 0} readonly className="scale-75 origin-left" />
                   </TableCell>
                   <TableCell>{formatDate(testimonial.created_at)}</TableCell>
                   <TableCell>
-                    <TestimonialStatusBadge status={testimonial.status} views={testimonial.views} />
+                    <TestimonialStatusBadge status={testimonial.status} />
                   </TableCell>
                   <TableCell>
                     <TestimonialActions
