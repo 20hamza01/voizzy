@@ -10,7 +10,8 @@ export const testimonialSchema = z.object({
     message: "Testimonial must be at least 10 characters.",
   }).max(1000, {
     message: "Testimonial cannot exceed 1000 characters."
-  })
+  }),
+  rating: z.number().min(1).max(5)
 });
 
 export type TestimonialFormValues = z.infer<typeof testimonialSchema>;

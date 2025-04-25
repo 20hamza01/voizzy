@@ -15,18 +15,21 @@ export type Database = {
           created_at: string
           full_name: string | null
           id: string
+          plan_type: string
         }
         Insert: {
           company_name?: string | null
           created_at?: string
           full_name?: string | null
           id: string
+          plan_type?: string
         }
         Update: {
           company_name?: string | null
           created_at?: string
           full_name?: string | null
           id?: string
+          plan_type?: string
         }
         Relationships: []
       }
@@ -40,6 +43,7 @@ export type Database = {
           created_at: string
           id: string
           key_points: string[] | null
+          rating: number | null
           selected_version: string | null
           sentiment_score: number | null
           status: Database["public"]["Enums"]["testimonial_status"]
@@ -55,6 +59,7 @@ export type Database = {
           created_at?: string
           id?: string
           key_points?: string[] | null
+          rating?: number | null
           selected_version?: string | null
           sentiment_score?: number | null
           status?: Database["public"]["Enums"]["testimonial_status"]
@@ -70,6 +75,7 @@ export type Database = {
           created_at?: string
           id?: string
           key_points?: string[] | null
+          rating?: number | null
           selected_version?: string | null
           sentiment_score?: number | null
           status?: Database["public"]["Enums"]["testimonial_status"]

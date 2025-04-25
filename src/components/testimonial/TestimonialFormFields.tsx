@@ -4,6 +4,7 @@ import { UseFormReturn } from "react-hook-form";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { StarRating } from "@/components/ui/star-rating";
 import type { TestimonialFormValues } from "@/schemas/testimonialSchema";
 
 interface TestimonialFormFieldsProps {
@@ -13,6 +14,23 @@ interface TestimonialFormFieldsProps {
 export const TestimonialFormFields: React.FC<TestimonialFormFieldsProps> = ({ form }) => {
   return (
     <>
+      <FormField
+        control={form.control}
+        name="rating"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Rating</FormLabel>
+            <FormControl>
+              <StarRating 
+                value={field.value || 0} 
+                onChange={field.onChange}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
       <FormField
         control={form.control}
         name="client_name"
