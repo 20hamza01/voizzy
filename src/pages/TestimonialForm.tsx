@@ -50,45 +50,58 @@ const TestimonialForm = () => {
     setIsSubmitting(true);
 
     try {
+      console.log("📝 Submitting testimonial:", values);
+      
       // Create an insert object with the correct required fields
       const insertData = {
-        client_name: values.client_name, // Explicitly include as required
-        content: values.content, // Explicitly include as required
-        client_role: values.client_role, // Optional
+        client_name: values.client_name,
+        content: values.content,
+        client_role: values.client_role,
         user_id: userId,
-        status: "pending" as const, // Using 'as const' to specify exact type
+        status: "pending" as const,
       };
       
       // Submit testimonial to Supabase
-      const { error } = await supabase.from("testimonials").insert(insertData);
+      const { data: testimonialData, error } = await supabase
+        .from("testimonials")
+        .insert(insertData)
+        .select()
+        .single();
 
       if (error) {
-        console.error("Error submitting testimonial:", error);
+        console.error("❌ Error submitting testimonial:", error);
         throw error;
       }
+
+      console.log("✅ Testimonial submitted successfully:", testimonialData);
 
       // Process testimonial with AI
       try {
         const { error: processingError } = await supabase.functions.invoke(
           "process-testimonial",
           {
-            body: { content: values.content },
+            body: { 
+              content: values.content,
+              testimonialId: testimonialData.id
+            },
           }
         );
 
         if (processingError) {
-          console.warn("AI processing warning:", processingError);
+          console.warn("⚠️ AI processing warning:", processingError);
           // Non-blocking - we continue even if AI processing fails
         }
+        
+        console.log("✨ AI processing completed for testimonial:", testimonialData.id);
       } catch (aiError) {
-        console.warn("AI processing error:", aiError);
+        console.warn("⚠️ AI processing error:", aiError);
         // Non-blocking - we continue even if AI processing fails
       }
 
       // Navigate to success page
       navigate(`/collect/${userId}/success`);
     } catch (error: any) {
-      console.error("Submission error:", error);
+      console.error("💥 Submission error:", error);
       toast.error(error.message || "Failed to submit testimonial. Please try again.");
     } finally {
       setIsSubmitting(false);

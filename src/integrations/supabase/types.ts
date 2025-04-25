@@ -32,31 +32,46 @@ export type Database = {
       }
       testimonials: {
         Row: {
+          ai_enhanced_content: string | null
+          ai_summary: string | null
           client_name: string
           client_role: string | null
           content: string
           created_at: string
           id: string
+          key_points: string[] | null
+          selected_version: string | null
+          sentiment_score: number | null
           status: Database["public"]["Enums"]["testimonial_status"]
           user_id: string
           views: number
         }
         Insert: {
+          ai_enhanced_content?: string | null
+          ai_summary?: string | null
           client_name: string
           client_role?: string | null
           content: string
           created_at?: string
           id?: string
+          key_points?: string[] | null
+          selected_version?: string | null
+          sentiment_score?: number | null
           status?: Database["public"]["Enums"]["testimonial_status"]
           user_id: string
           views?: number
         }
         Update: {
+          ai_enhanced_content?: string | null
+          ai_summary?: string | null
           client_name?: string
           client_role?: string | null
           content?: string
           created_at?: string
           id?: string
+          key_points?: string[] | null
+          selected_version?: string | null
+          sentiment_score?: number | null
           status?: Database["public"]["Enums"]["testimonial_status"]
           user_id?: string
           views?: number

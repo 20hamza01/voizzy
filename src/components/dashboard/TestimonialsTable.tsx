@@ -41,6 +41,13 @@ const TestimonialsTable: React.FC<TestimonialsTableProps> = ({
     });
   };
 
+  const getDisplayContent = (testimonial: Testimonial) => {
+    if (testimonial.selected_version === "enhanced" && testimonial.ai_enhanced_content) {
+      return testimonial.ai_enhanced_content;
+    }
+    return testimonial.content;
+  };
+
   return (
     <div className="space-y-4">
       {loading ? (
@@ -70,11 +77,16 @@ const TestimonialsTable: React.FC<TestimonialsTableProps> = ({
                   <TableCell className="font-medium">{testimonial.client_name}</TableCell>
                   <TableCell>{testimonial.client_role || "-"}</TableCell>
                   <TableCell className="hidden md:table-cell max-w-xs">
-                    <div className="line-clamp-2">{testimonial.content}</div>
+                    <div className="line-clamp-2">
+                      {getDisplayContent(testimonial)}
+                      {testimonial.selected_version === "enhanced" && (
+                        <span className="ml-2 text-xs text-blue-600">(Enhanced)</span>
+                      )}
+                    </div>
                   </TableCell>
                   <TableCell>{formatDate(testimonial.created_at)}</TableCell>
                   <TableCell>
-                    <TestimonialStatusBadge status={testimonial.status} />
+                    <TestimonialStatusBadge status={testimonial.status} views={testimonial.views} />
                   </TableCell>
                   <TableCell>
                     <TestimonialActions
