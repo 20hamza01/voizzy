@@ -31,6 +31,7 @@ const TestimonialForm = () => {
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   
   const form = useForm<TestimonialFormValues>({
     resolver: zodResolver(testimonialSchema),
@@ -48,6 +49,7 @@ const TestimonialForm = () => {
     }
 
     setIsSubmitting(true);
+    setSubmitError(null);
 
     try {
       console.log("📝 Submitting testimonial:", values);
@@ -56,10 +58,12 @@ const TestimonialForm = () => {
       const insertData = {
         client_name: values.client_name,
         content: values.content,
-        client_role: values.client_role,
+        client_role: values.client_role || null,
         user_id: userId,
         status: "pending" as const,
       };
+      
+      console.log("🔄 Sending testimonial to Supabase:", insertData);
       
       // Submit testimonial to Supabase
       const { data: testimonialData, error } = await supabase
@@ -70,14 +74,25 @@ const TestimonialForm = () => {
 
       if (error) {
         console.error("❌ Error submitting testimonial:", error);
-        throw error;
+        
+        // Show a more specific error message
+        if (error.message.includes("limit")) {
+          setSubmitError("This user has reached their testimonial limit. Please contact them directly.");
+          toast.error("Testimonial limit reached");
+        } else {
+          setSubmitError(`Error submitting: ${error.message}`);
+          toast.error("Failed to submit testimonial");
+        }
+        return;
       }
 
       console.log("✅ Testimonial submitted successfully:", testimonialData);
 
       // Process testimonial with AI
       try {
-        const { error: processingError } = await supabase.functions.invoke(
+        console.log("🧠 Starting AI processing for testimonial:", testimonialData.id);
+        
+        const processResponse = await supabase.functions.invoke(
           "process-testimonial",
           {
             body: { 
@@ -86,23 +101,31 @@ const TestimonialForm = () => {
             },
           }
         );
-
-        if (processingError) {
-          console.warn("⚠️ AI processing warning:", processingError);
-          // Non-blocking - we continue even if AI processing fails
-        }
         
-        console.log("✨ AI processing completed for testimonial:", testimonialData.id);
+        if (processResponse.error) {
+          console.warn("⚠️ AI processing warning:", processResponse.error);
+          // Non-blocking - we continue even if AI processing fails
+        } else {
+          console.log("✨ AI processing completed successfully:", processResponse.data);
+        }
       } catch (aiError) {
         console.warn("⚠️ AI processing error:", aiError);
         // Non-blocking - we continue even if AI processing fails
       }
 
-      // Navigate to success page
+      // Clear any previous errors
+      setSubmitError(null);
+      
+      // Show success message
+      toast.success("Testimonial submitted successfully!");
+      
+      // Navigate to success page - ensure the path is correct
+      console.log(`🔄 Navigating to success page: /collect/${userId}/success`);
       navigate(`/collect/${userId}/success`);
     } catch (error: any) {
       console.error("💥 Submission error:", error);
-      toast.error(error.message || "Failed to submit testimonial. Please try again.");
+      setSubmitError(error.message || "Failed to submit testimonial. Please try again.");
+      toast.error("Submission error");
     } finally {
       setIsSubmitting(false);
     }
@@ -117,6 +140,12 @@ const TestimonialForm = () => {
             Thank you for taking the time to share your feedback. Your testimonial helps others understand our service quality.
           </p>
         </div>
+        
+        {submitError && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <span className="block sm:inline">{submitError}</span>
+          </div>
+        )}
         
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
