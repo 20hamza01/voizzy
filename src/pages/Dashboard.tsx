@@ -9,6 +9,7 @@ import { useTestimonialRealtime } from "@/hooks/useTestimonialRealtime";
 import DashboardStats from "@/components/dashboard/DashboardStats";
 import RecentTestimonials from "@/components/dashboard/RecentTestimonials";
 import EmbedCodeGenerator from "@/components/dashboard/EmbedCodeGenerator";
+import { FormSettings } from "@/components/dashboard/FormSettings";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -56,7 +57,10 @@ const Dashboard = () => {
       <DashboardStats stats={stats} loading={statsLoading} />
 
       <div className="grid gap-6 mt-6 md:grid-cols-2">
-        <ShareTestimonialForm userId={user?.id} />
+        <div className="space-y-6">
+          <ShareTestimonialForm userId={user?.id} />
+          <FormSettings />
+        </div>
         <div className="space-y-6">
           <RecentTestimonials 
             testimonials={recentTestimonials} 
