@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
@@ -8,10 +9,12 @@ import EmbedCodeGenerator from "@/components/dashboard/EmbedCodeGenerator";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import { useTestimonialRealtime } from "@/hooks/useTestimonialRealtime";
 import { WidgetCodeGenerator } from "@/components/dashboard/WidgetCodeGenerator";
+import { useDashboardStats } from "@/hooks/useDashboardStats";
 
 const Dashboard = () => {
   const { user } = useAuth();
   const { testimonials, loading, fetchTestimonials } = useTestimonials(user);
+  const { stats, loading: statsLoading } = useDashboardStats(user?.id);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -41,7 +44,7 @@ const Dashboard = () => {
         </div>
 
         <div className="grid gap-6">
-          <DashboardStats />
+          <DashboardStats stats={stats} loading={statsLoading} />
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <RecentTestimonials 
@@ -54,7 +57,7 @@ const Dashboard = () => {
 
           <div className="grid grid-cols-1 gap-6">
             <EmbedCodeGenerator />
-            <WidgetCodeGenerator /> {/* Add the new component */}
+            <WidgetCodeGenerator />
           </div>
         </div>
       </div>
