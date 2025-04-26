@@ -74,9 +74,11 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <Loader className="w-6 h-6 animate-spin" />
-        <span className="ml-2 text-sm">Loading testimonials...</span>
+      <div className="flex items-center justify-center p-8 min-h-[200px] bg-background border border-border rounded-lg">
+        <div className="flex flex-col items-center gap-3">
+          <Loader className="w-6 h-6 animate-spin text-muted-foreground" />
+          <span className="text-sm text-muted-foreground">Loading testimonials...</span>
+        </div>
       </div>
     );
   }
@@ -84,21 +86,23 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
   if (testimonials.length === 0) {
     return (
       <div 
-        className="p-4 text-center"
+        className="min-h-[200px] flex items-center justify-center p-6 rounded-lg bg-background border border-border"
         style={{ 
           color: theme === "dark" ? "#e5e7eb" : "#4b5563",
         }}
       >
-        No testimonials available yet.
+        <p className="text-center text-muted-foreground">
+          No testimonials available yet.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="widget-container">
-      <div className="p-4">
+    <div className="widget-container bg-background border border-border rounded-lg shadow-sm">
+      <div className="p-6">
         <h3 
-          className="font-medium text-lg mb-4 text-center"
+          className="font-medium text-lg mb-6 text-center"
           style={{ 
             color: theme === "dark" ? "#f3f4f6" : "#111827",
           }}
@@ -106,7 +110,7 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
           What people are saying
         </h3>
         
-        <div className="space-y-4 max-h-[400px] overflow-y-auto p-1">
+        <div className="space-y-4 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent pr-2">
           {testimonials.map((testimonial) => (
             <TestimonialCard
               key={testimonial.id}
@@ -119,7 +123,7 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
 
         {showBranding && (
           <div 
-            className="text-center mt-4 pt-2 text-xs"
+            className="text-center mt-6 pt-4 text-xs"
             style={{ 
               color: theme === "dark" ? "#9ca3af" : "#9ca3af",
               borderTop: `1px solid ${theme === "dark" ? "#374151" : "#f3f4f6"}`,

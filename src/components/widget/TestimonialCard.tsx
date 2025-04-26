@@ -16,9 +16,9 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
 }) => {
   return (
     <div 
-      className="p-4 rounded-lg"
+      className="p-4 rounded-lg transition-colors"
       style={{ 
-        backgroundColor: theme === "dark" ? "#374151" : "#f9fafb",
+        backgroundColor: theme === "dark" ? "#1f2937" : "#f9fafb",
         borderLeft: `3px solid ${primaryColor || "#9b87f5"}`,
       }}
     >
@@ -33,7 +33,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
       )}
       
       <p 
-        className="italic text-sm mb-3"
+        className="italic text-sm mb-3 leading-relaxed"
         style={{ 
           color: theme === "dark" ? "#e5e7eb" : "#4b5563",
         }}
@@ -41,7 +41,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
         "{testimonial.content}"
       </p>
       
-      <div>
+      <div className="flex flex-col gap-0.5">
         <p 
           className="font-medium text-sm"
           style={{ 
