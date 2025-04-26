@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Copy } from "lucide-react";
 
-export const WidgetCodeGenerator = () => {
+export const TestimonialEmbedOptions = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [limit, setLimit] = useState("3");
