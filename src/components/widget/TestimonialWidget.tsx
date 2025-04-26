@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Testimonial } from "@/types/testimonial";
 import { TestimonialCard } from "@/components/widget/TestimonialCard";
+import { Loader } from "lucide-react";
 
 interface TestimonialWidgetProps {
   userId: string;
@@ -23,33 +24,63 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
   onLoad,
 }) => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [page, setPage] = useState(1);
-  
-  // Fetch testimonials from edge function
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchTestimonials = async () => {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => {
+        controller.abort();
+        setLoading(false);
+        onError("Request timed out. Please try again.");
+      }, 10000); // 10 second timeout
+
       try {
         const response = await fetch(
-          `https://zksdcehnfspmcxzwnxbk.functions.supabase.co/get-public-testimonials?userId=${userId}&limit=${limit}`
+          `https://zksdcehnfspmcxzwnxbk.functions.supabase.co/get-public-testimonials?userId=${userId}&limit=${limit}`,
+          {
+            signal: controller.signal,
+          }
         );
+        
+        clearTimeout(timeoutId);
         
         if (!response.ok) {
           throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
         
         const data = await response.json();
-        setTestimonials(data.testimonials || []);
+        if (!data.testimonials) {
+          throw new Error("Invalid response format");
+        }
+        
+        setTestimonials(data.testimonials);
+        setLoading(false);
         onLoad();
       } catch (error) {
+        clearTimeout(timeoutId);
+        setLoading(false);
+        if (error instanceof Error) {
+          onError(error.name === "AbortError" ? "Request timed out" : error.message);
+        } else {
+          onError("An unexpected error occurred");
+        }
         console.error("Error fetching testimonials:", error);
-        onError("Failed to load testimonials");
       }
     };
     
     fetchTestimonials();
   }, [userId, limit, onError, onLoad]);
 
-  // No testimonials to display
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <Loader className="w-6 h-6 animate-spin" />
+        <span className="ml-2 text-sm">Loading testimonials...</span>
+      </div>
+    );
+  }
+
   if (testimonials.length === 0) {
     return (
       <div 
@@ -86,9 +117,6 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
           ))}
         </div>
 
-        {/* Pagination controls can be added here */}
-        
-        {/* Branding */}
         {showBranding && (
           <div 
             className="text-center mt-4 pt-2 text-xs"
