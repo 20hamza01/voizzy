@@ -4,16 +4,17 @@ import { useParams } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Loader } from "lucide-react";
-
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { testimonialSchema, type TestimonialFormValues } from "@/schemas/testimonialSchema";
 import { useTestimonialSubmit } from "@/hooks/useTestimonialSubmit";
 import { TestimonialFormFields } from "@/components/testimonial/TestimonialFormFields";
+import { useFormCustomization } from "@/hooks/useFormCustomization";
 
 const TestimonialForm = () => {
   const { userId } = useParams<{ userId: string }>();
   const { handleSubmit, isSubmitting, submitError } = useTestimonialSubmit(userId);
+  const { primaryColor, showBranding, logoUrl } = useFormCustomization(userId);
   
   const form = useForm<TestimonialFormValues>({
     resolver: zodResolver(testimonialSchema),
@@ -21,16 +22,27 @@ const TestimonialForm = () => {
       client_name: "",
       client_role: "",
       content: "",
+      rating: 0,
     },
   });
 
+  const formStyle = {
+    "--primary-color": primaryColor,
+  } as React.CSSProperties;
+
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8" style={formStyle}>
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow">
+        {logoUrl && (
+          <div className="flex justify-center mb-6">
+            <img src={logoUrl} alt="Company logo" className="h-16 object-contain" />
+          </div>
+        )}
+        
         <div className="text-center">
           <h2 className="mt-2 text-3xl font-extrabold text-gray-900">Share Your Experience</h2>
           <p className="mt-2 text-sm text-gray-600">
-            Thank you for taking the time to share your feedback. Your testimonial helps others understand our service quality.
+            Thank you for taking the time to share your feedback
           </p>
         </div>
         
@@ -46,8 +58,9 @@ const TestimonialForm = () => {
             
             <Button 
               type="submit" 
-              className="w-full" 
+              className="w-full"
               disabled={isSubmitting}
+              style={{ backgroundColor: primaryColor }}
             >
               {isSubmitting ? (
                 <span className="flex items-center gap-2">
@@ -61,11 +74,13 @@ const TestimonialForm = () => {
           </form>
         </Form>
         
-        <div className="mt-4 text-center">
-          <p className="text-xs text-gray-500">
-            Powered by Voizzy • The testimonial collection platform
-          </p>
-        </div>
+        {showBranding && (
+          <div className="mt-4 text-center">
+            <p className="text-xs text-gray-500">
+              Powered by Voizzy • The testimonial collection platform
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

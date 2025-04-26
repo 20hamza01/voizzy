@@ -1,39 +1,37 @@
 
 import React from "react";
-import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useFormCustomization } from "@/hooks/useFormCustomization";
+import { useParams } from "react-router-dom";
 
 interface StarRatingProps {
   value: number;
-  onChange?: (rating: number) => void;
-  readonly?: boolean;
+  onChange: (value: number) => void;
   className?: string;
 }
 
-export const StarRating: React.FC<StarRatingProps> = ({ 
-  value, 
-  onChange, 
-  readonly = false,
-  className 
+export const StarRating: React.FC<StarRatingProps> = ({
+  value,
+  onChange,
+  className,
 }) => {
+  const { userId } = useParams<{ userId: string }>();
+  const { primaryColor } = useFormCustomization(userId);
+
   return (
-    <div className={cn("flex gap-1", className)}>
+    <div className={cn("flex items-center gap-1", className)}>
       {[1, 2, 3, 4, 5].map((rating) => (
         <button
           key={rating}
-          type={readonly ? "button" : "button"}
-          onClick={() => !readonly && onChange?.(rating)}
-          className={`${readonly ? "cursor-default" : "cursor-pointer"}`}
-          disabled={readonly}
+          type="button"
+          onClick={() => onChange(rating)}
+          className={cn(
+            "text-2xl focus:outline-none transition-colors",
+            rating <= value ? "text-current" : "text-gray-300"
+          )}
+          style={{ color: rating <= value ? primaryColor : undefined }}
         >
-          <Star
-            className={cn(
-              "w-5 h-5",
-              rating <= value 
-                ? "fill-yellow-400 text-yellow-400" 
-                : "fill-none text-gray-300"
-            )}
-          />
+          ★
         </button>
       ))}
     </div>

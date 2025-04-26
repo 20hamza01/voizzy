@@ -75,9 +75,6 @@ export const TestimonialFormFields: React.FC<TestimonialFormFieldsProps> = ({ fo
                 {...field}
               />
             </FormControl>
-            <FormDescription>
-              {field.value ? `${field.value.length}/1000 characters` : "0/1000 characters"}
-            </FormDescription>
             <FormMessage />
           </FormItem>
         )}
