@@ -11,6 +11,7 @@ import TestimonialForm from "./pages/TestimonialForm";
 import TestimonialSuccess from "./pages/TestimonialSuccess";
 import Onboarding from "./pages/Onboarding";
 import EmbedWall from "./pages/EmbedWall";
+import Widget from "./pages/Widget"; // Add import for Widget page
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
@@ -25,7 +26,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/collect/:userId" element={<TestimonialForm />} />
           <Route path="/collect/:userId/success" element={<TestimonialSuccess />} />
-          <Route path="/embed/:userId" element={<EmbedWall />} /> {/* New embed route */}
+          <Route path="/embed/:userId" element={<EmbedWall />} />
+          <Route path="/widget/:userId" element={<Widget />} /> {/* Add Widget route */}
 
           {/* Protected routes */}
           <Route
