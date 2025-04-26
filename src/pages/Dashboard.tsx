@@ -1,14 +1,12 @@
-
 import React, { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import DashboardStats from "@/components/dashboard/DashboardStats";
 import RecentTestimonials from "@/components/dashboard/RecentTestimonials";
 import ShareTestimonialForm from "@/components/dashboard/ShareTestimonialForm";
-import EmbedCodeGenerator from "@/components/dashboard/EmbedCodeGenerator";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import { useTestimonialRealtime } from "@/hooks/useTestimonialRealtime";
-import { WidgetCodeGenerator } from "@/components/dashboard/WidgetCodeGenerator";
+import { TestimonialEmbedOptions } from "@/components/dashboard/TestimonialEmbedOptions";
 import { useDashboardStats } from "@/hooks/useDashboardStats";
 
 const Dashboard = () => {
@@ -51,14 +49,10 @@ const Dashboard = () => {
               testimonials={testimonials.slice(0, 3)} 
               loading={loading}
             />
-            
-            <ShareTestimonialForm />
+            <ShareTestimonialForm userId={user?.id} />
           </div>
 
-          <div className="grid grid-cols-1 gap-6">
-            <EmbedCodeGenerator />
-            <WidgetCodeGenerator />
-          </div>
+          <TestimonialEmbedOptions />
         </div>
       </div>
     </DashboardLayout>
