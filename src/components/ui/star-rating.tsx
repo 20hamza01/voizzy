@@ -6,14 +6,16 @@ import { useParams } from "react-router-dom";
 
 interface StarRatingProps {
   value: number;
-  onChange: (value: number) => void;
+  onChange?: (value: number) => void;
   className?: string;
+  readonly?: boolean;
 }
 
 export const StarRating: React.FC<StarRatingProps> = ({
   value,
   onChange,
   className,
+  readonly = false,
 }) => {
   const { userId } = useParams<{ userId: string }>();
   const { primaryColor } = useFormCustomization(userId);
@@ -24,12 +26,14 @@ export const StarRating: React.FC<StarRatingProps> = ({
         <button
           key={rating}
           type="button"
-          onClick={() => onChange(rating)}
+          onClick={() => !readonly && onChange && onChange(rating)}
           className={cn(
             "text-2xl focus:outline-none transition-colors",
-            rating <= value ? "text-current" : "text-gray-300"
+            rating <= value ? "text-current" : "text-gray-300",
+            readonly ? "cursor-default" : "cursor-pointer"
           )}
           style={{ color: rating <= value ? primaryColor : undefined }}
+          disabled={readonly}
         >
           ★
         </button>
