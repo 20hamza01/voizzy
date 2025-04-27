@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 
 export const useAdmin = () => {
   const { user, session } = useAuth();
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null); // Initialize as null
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
@@ -48,7 +48,8 @@ export const useAdmin = () => {
     console.log("useAdmin effect triggered", { 
       hasUser: !!user, 
       hasSession: !!session,
-      loading 
+      loading,
+      currentIsAdmin: isAdmin 
     });
     
     if (user && session) {
@@ -58,7 +59,6 @@ export const useAdmin = () => {
     }
 
     return () => {
-      // Cleanup function
       console.log("Cleaning up useAdmin effect");
     };
   }, [user, session]);

@@ -37,7 +37,7 @@ const AdminProtectedRoute = ({ children }: AdminProtectedRouteProps) => {
         return;
       }
 
-      if (!isAdmin) {
+      if (isAdmin === false) { // Only redirect if we're sure user is not admin
         console.log("User is not admin, redirecting to dashboard");
         toast({
           title: "Access Denied",
@@ -50,7 +50,7 @@ const AdminProtectedRoute = ({ children }: AdminProtectedRouteProps) => {
   }, [isAdmin, adminLoading, authLoading, user, session, navigate, toast]);
 
   // Show loading state when checking auth/admin status
-  if (authLoading || adminLoading) {
+  if (authLoading || adminLoading || isAdmin === null) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="flex flex-col items-center gap-4">
