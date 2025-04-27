@@ -10,12 +10,14 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Palette, Upload, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 export const FormSettings = () => {
   const { user } = useAuth();
-  const { settings, updateSettings, uploadLogo, uploading } = useFormSettings(user?.id);
+  const { settings, updateSettings, uploadLogo, uploading, isLoading } = useFormSettings(user?.id);
   const { isPremium, isLoading: checkingPremium } = usePremiumCheck();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleColorChange = (color: string) => {
@@ -28,17 +30,36 @@ export const FormSettings = () => {
 
   const handleLogoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) {
-      await uploadLogo(file);
+    if (!file) return;
+    
+    if (!isPremium) {
+      toast({
+        title: "Premium Required",
+        description: "Logo upload requires a Premium plan",
+        variant: "destructive",
+      });
+      return;
     }
+    
+    await uploadLogo(file);
   };
 
   const handleUpgradeClick = () => {
     navigate("/dashboard/plans");
   };
 
-  if (checkingPremium) {
-    return null; // Or a loading spinner
+  if (checkingPremium || isLoading) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Form Customization</CardTitle>
+          <CardDescription>Loading settings...</CardDescription>
+        </CardHeader>
+        <CardContent className="h-40 flex items-center justify-center">
+          <p className="text-muted-foreground">Loading form settings...</p>
+        </CardContent>
+      </Card>
+    );
   }
 
   return (
@@ -71,7 +92,7 @@ export const FormSettings = () => {
             <Input
               id="primary-color"
               type="color"
-              value={settings?.primary_color || "#000000"}
+              value={settings?.primary_color || "#9b87f5"}
               onChange={(e) => handleColorChange(e.target.value)}
               disabled={!isPremium}
               className={!isPremium ? "opacity-50 cursor-not-allowed" : ""}
