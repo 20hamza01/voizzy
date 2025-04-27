@@ -11,10 +11,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const UserManagement = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -22,12 +24,21 @@ const UserManagement = () => {
   }, []);
 
   const fetchUsers = async () => {
+    setLoading(true);
+    setError(null);
+    
     try {
-      const { data: { users }, error } = await supabase.auth.admin.listUsers();
+      // Instead of using admin.listUsers, we'll query from auth.users using an RPC function
+      // This assumes you have a Supabase function that returns users with proper access control
+      const { data, error } = await supabase.from('profiles').select('*');
+      
       if (error) throw error;
-      setUsers(users || []);
-    } catch (error) {
+      
+      console.log('Fetched profiles:', data);
+      setUsers(data || []);
+    } catch (error: any) {
       console.error('Error fetching users:', error);
+      setError(error.message || 'Failed to fetch users');
       toast({
         title: "Error",
         description: "Failed to fetch users",
@@ -41,11 +52,13 @@ const UserManagement = () => {
   const toggleUserStatus = async (userId: string, currentStatus: boolean) => {
     try {
       // Use updateUserById instead of updateUser
-      const { error } = await supabase.auth.admin.updateUserById(userId, {
-        user_metadata: { 
+      const { error } = await supabase
+        .from('profiles')
+        .update({ 
+          // Instead of updating user_metadata.banned, we'll update a banned field in profiles
           banned: !currentStatus 
-        }
-      });
+        })
+        .eq('id', userId);
 
       if (error) throw error;
 
@@ -54,7 +67,7 @@ const UserManagement = () => {
         description: `User ${currentStatus ? 'unbanned' : 'banned'} successfully`,
       });
       fetchUsers();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating user status:', error);
       toast({
         title: "Error",
@@ -65,7 +78,26 @@ const UserManagement = () => {
   };
 
   if (loading) {
-    return <div>Loading users...</div>;
+    return (
+      <div className="flex items-center justify-center p-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        <span className="ml-3">Loading users...</span>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert variant="destructive" className="mb-6">
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>
+          {error}
+          <p className="mt-2">
+            Note: Accessing user data requires Supabase service role key or a custom backend API.
+          </p>
+        </AlertDescription>
+      </Alert>
+    );
   }
 
   return (
@@ -74,37 +106,47 @@ const UserManagement = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Email</TableHead>
+              <TableHead>Full Name</TableHead>
+              <TableHead>Company</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Created At</TableHead>
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>
-                  {user.user_metadata?.banned ? (
-                    <span className="text-destructive">Banned</span>
-                  ) : (
-                    <span className="text-green-600">Active</span>
-                  )}
-                </TableCell>
-                <TableCell>
-                  {new Date(user.created_at).toLocaleDateString()}
-                </TableCell>
-                <TableCell>
-                  <Button
-                    variant={user.user_metadata?.banned ? "default" : "destructive"}
-                    size="sm"
-                    onClick={() => toggleUserStatus(user.id, user.user_metadata?.banned)}
-                  >
-                    {user.user_metadata?.banned ? "Unban" : "Ban"}
-                  </Button>
+            {users.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center py-4">
+                  No users found
                 </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              users.map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell>{user.full_name || 'N/A'}</TableCell>
+                  <TableCell>{user.company_name || 'N/A'}</TableCell>
+                  <TableCell>
+                    {user.banned ? (
+                      <span className="text-destructive">Banned</span>
+                    ) : (
+                      <span className="text-green-600">Active</span>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {new Date(user.created_at).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      variant={user.banned ? "default" : "destructive"}
+                      size="sm"
+                      onClick={() => toggleUserStatus(user.id, user.banned)}
+                    >
+                      {user.banned ? "Unban" : "Ban"}
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </div>
