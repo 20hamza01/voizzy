@@ -21,8 +21,7 @@
 * Unique shareable form URL per user
 
 * Embed testimonial wall (iframe)
-
-* Email and in-app notification when testimonial is submitted  
+  
 * Lightweight user dashboard to view submitted testimonials, where he can approve/delete testimonials.
 
 * 3-tiered plan logic enforcement
