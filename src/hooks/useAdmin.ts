@@ -2,15 +2,17 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 export const useAdmin = () => {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     const checkAdminStatus = async () => {
-      if (!user) {
+      if (!user || !session) {
         setIsAdmin(false);
         setLoading(false);
         return;
@@ -25,6 +27,11 @@ export const useAdmin = () => {
         setIsAdmin(data || false);
       } catch (error) {
         console.error('Error checking admin status:', error);
+        toast({
+          title: "Error checking admin status",
+          description: "Please try again later",
+          variant: "destructive",
+        });
         setIsAdmin(false);
       } finally {
         setLoading(false);
@@ -32,7 +39,7 @@ export const useAdmin = () => {
     };
 
     checkAdminStatus();
-  }, [user]);
+  }, [user, session, toast]);
 
   return { isAdmin, loading };
 };
