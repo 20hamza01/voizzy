@@ -25,9 +25,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { toast } = useToast();
 
   useEffect(() => {
+    console.log("AuthProvider initializing");
+    
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log("Auth state change event:", event, { hasSession: !!session, userId: session?.user?.id });
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
@@ -36,23 +39,39 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log("Initial session check:", { hasSession: !!session, userId: session?.user?.id });
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+    }).catch(error => {
+      console.error("Error getting session:", error);
+      setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      console.log("Cleaning up auth subscription");
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signOut = async () => {
     try {
+      console.log("Attempting to sign out user");
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
+      
+      console.log("User signed out successfully");
       
       // Clear auth state
       setUser(null);
       setSession(null);
+      
+      toast({
+        title: "Signed out",
+        description: "You have been signed out successfully",
+      });
     } catch (error) {
+      console.error("Error signing out:", error);
       toast({
         title: "Error signing out",
         description: "Please try again",
@@ -61,8 +80,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const contextValue = {
+    user,
+    session,
+    loading,
+    signOut
+  };
+
+  console.log("AuthContext values:", { hasUser: !!user, hasSession: !!session, loading });
+
   return (
-    <AuthContext.Provider value={{ user, session, loading, signOut }}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );
