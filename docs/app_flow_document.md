@@ -69,7 +69,7 @@
 
 3. Client visits link, submits testimonial
 
-4. User gets email → Approves in-app
+4. Approves in-app
 
 5. Testimonial appears on Wall of Love
 
