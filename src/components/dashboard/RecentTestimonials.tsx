@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import type { Testimonial } from "@/types/testimonial";
+import { StarRating } from "@/components/ui/star-rating";
 
 interface RecentTestimonialsProps {
   testimonials: Testimonial[];
@@ -28,25 +29,34 @@ const RecentTestimonials: React.FC<RecentTestimonialsProps> = ({ testimonials, l
             {testimonials.map((testimonial) => (
               <div
                 key={testimonial.id}
-                className="flex items-center justify-between border-b pb-2 last:border-0 last:pb-0"
+                className="flex flex-col gap-2 border-b pb-3 last:border-0 last:pb-0"
               >
-                <div>
-                  <p className="font-semibold">{testimonial.client_name}</p>
-                  <p className="text-sm text-gray-500 line-clamp-1">
-                    {testimonial.content}
-                  </p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-semibold">{testimonial.client_name}</p>
+                    {testimonial.rating && (
+                      <StarRating 
+                        value={testimonial.rating} 
+                        readonly 
+                        className="scale-75 origin-left mt-1" 
+                      />
+                    )}
+                  </div>
+                  <span
+                    className={`px-2 py-1 text-xs rounded-full ${
+                      testimonial.status === "approved"
+                        ? "bg-green-100 text-green-800"
+                        : testimonial.status === "rejected"
+                        ? "bg-red-100 text-red-800"
+                        : "bg-yellow-100 text-yellow-800"
+                    }`}
+                  >
+                    {testimonial.status}
+                  </span>
                 </div>
-                <span
-                  className={`px-2 py-1 text-xs rounded-full ${
-                    testimonial.status === "approved"
-                      ? "bg-green-100 text-green-800"
-                      : testimonial.status === "rejected"
-                      ? "bg-red-100 text-red-800"
-                      : "bg-yellow-100 text-yellow-800"
-                  }`}
-                >
-                  {testimonial.status}
-                </span>
+                <p className="text-sm text-gray-500 line-clamp-1">
+                  {testimonial.content}
+                </p>
               </div>
             ))}
           </div>
