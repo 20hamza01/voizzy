@@ -4,28 +4,28 @@ import { Check } from "lucide-react";
 
 const features = [
   {
-    name: "Customizable forms",
-    description: "Add your branding and choose from beautiful pre-made themes to match your company's style."
+    name: "Easy form creation",
+    description: "Create beautiful testimonial forms in minutes with our intuitive builder."
   },
   {
-    name: "Multi-format testimonials",
-    description: "Collect authentic feedback in text, audio, or video format - whatever your clients prefer."
+    name: "Multiple formats",
+    description: "Collect feedback in text, audio, or video format - whatever suits your clients best."
   },
   {
-    name: "Shareable links",
-    description: "Get a unique link for your testimonial form that you can share with clients via email or social media."
+    name: "Custom branding",
+    description: "Match your forms and testimonial wall to your brand's look and feel."
   },
   {
-    name: "Approval workflow",
-    description: "Review submissions before they go public and get notified by email when new testimonials arrive."
+    name: "One-click sharing",
+    description: "Share your testimonial form via email, social media, or embed it on your site."
   },
   {
-    name: "Beautiful showcase",
-    description: "Display approved testimonials on your own Wall of Love page and embed them on your website."
+    name: "Smart workflows",
+    description: "Automatically notify team members and process new testimonials."
   },
   {
-    name: "No client login required",
-    description: "Clients can leave testimonials directly without having to create an account."
+    name: "Seamless integration",
+    description: "Connect with your favorite tools through our Zapier integration."
   }
 ];
 
@@ -34,28 +34,29 @@ const Features = () => {
     <div className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
-          <h2 className="text-base font-semibold leading-7 text-voizzy-purple">Boost credibility</h2>
+          <h2 className="text-base font-semibold leading-7 text-primary">Powerful features</h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Everything you need to collect powerful testimonials
           </p>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            Voizzy makes it easy to gather and showcase authentic feedback from your happy clients.
-          </p>
         </div>
-        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
+        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
+          <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-3">
             {features.map((feature) => (
-              <div key={feature.name} className="relative pl-16">
-                <dt className="text-base font-semibold leading-7 text-gray-900">
-                  <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-voizzy-purple">
-                    <Check className="h-6 w-6 text-white" aria-hidden="true" />
+              <div key={feature.name} className="feature-card">
+                <div className="flex items-center gap-x-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
+                    <Check className="h-5 w-5 text-primary" aria-hidden="true" />
                   </div>
-                  {feature.name}
-                </dt>
-                <dd className="mt-2 text-base leading-7 text-gray-600">{feature.description}</dd>
+                  <h3 className="text-lg font-semibold leading-7 text-gray-900">
+                    {feature.name}
+                  </h3>
+                </div>
+                <p className="mt-4 text-base leading-7 text-gray-600">
+                  {feature.description}
+                </p>
               </div>
             ))}
-          </dl>
+          </div>
         </div>
       </div>
     </div>
