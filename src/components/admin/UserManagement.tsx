@@ -40,10 +40,17 @@ const UserManagement = () => {
 
   const toggleUserStatus = async (userId: string, currentStatus: boolean) => {
     try {
-      // Use the correct property name 'ban' instead of 'banned'
-      await supabase.auth.admin.updateUserById(userId, {
-        ban: !currentStatus,
+      // Use updateUser instead of updateUserById
+      const { error } = await supabase.auth.admin.updateUser({
+        id: userId,
+        // Use user_metadata to set banned status
+        user_metadata: { 
+          banned: !currentStatus 
+        }
       });
+
+      if (error) throw error;
+
       toast({
         title: "Success",
         description: `User ${currentStatus ? 'unbanned' : 'banned'} successfully`,
@@ -80,7 +87,7 @@ const UserManagement = () => {
               <TableRow key={user.id}>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>
-                  {user.banned ? (
+                  {user.user_metadata?.banned ? (
                     <span className="text-destructive">Banned</span>
                   ) : (
                     <span className="text-green-600">Active</span>
@@ -91,11 +98,11 @@ const UserManagement = () => {
                 </TableCell>
                 <TableCell>
                   <Button
-                    variant={user.banned ? "default" : "destructive"}
+                    variant={user.user_metadata?.banned ? "default" : "destructive"}
                     size="sm"
-                    onClick={() => toggleUserStatus(user.id, user.banned)}
+                    onClick={() => toggleUserStatus(user.id, user.user_metadata?.banned)}
                   >
-                    {user.banned ? "Unban" : "Ban"}
+                    {user.user_metadata?.banned ? "Unban" : "Ban"}
                   </Button>
                 </TableCell>
               </TableRow>
