@@ -17,18 +17,34 @@ const Analytics = () => {
 
   const fetchStats = async () => {
     try {
-      const { count: totalUsers } = await supabase
+      // Use explicit count(*) and ensure we're counting all profiles
+      const { count: totalUsers, error: usersError } = await supabase
         .from('profiles')
         .select('*', { count: 'exact', head: true });
 
-      const { count: totalTestimonials } = await supabase
+      if (usersError) {
+        console.error('Error fetching users:', usersError);
+        throw usersError;
+      }
+
+      const { count: totalTestimonials, error: testimonialsError } = await supabase
         .from('testimonials')
         .select('*', { count: 'exact', head: true });
 
-      const { count: pendingTestimonials } = await supabase
+      if (testimonialsError) {
+        console.error('Error fetching testimonials:', testimonialsError);
+        throw testimonialsError;
+      }
+
+      const { count: pendingTestimonials, error: pendingError } = await supabase
         .from('testimonials')
         .select('*', { count: 'exact', head: true })
         .eq('status', 'pending');
+
+      if (pendingError) {
+        console.error('Error fetching pending testimonials:', pendingError);
+        throw pendingError;
+      }
 
       setStats({
         totalUsers: totalUsers || 0,
