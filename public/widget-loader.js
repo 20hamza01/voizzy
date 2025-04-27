@@ -1,3 +1,4 @@
+
 (function() {
   // Prevent multiple instances
   if (window.VoizzyWidget) {
@@ -33,50 +34,50 @@
 
   // Create floating message
   const message = document.createElement('div');
-  message.innerHTML = 'See what others are saying...';
+  message.className = 'widget-message';
+  message.innerHTML = 'See what others are saying.';
   message.style.position = 'fixed';
-  message.style.bottom = '80px';
-  message.style.right = '80px';
-  message.style.backgroundColor = '#F1F0FB';
-  message.style.color = '#1A1F2C';
-  message.style.padding = '12px 16px';
-  message.style.borderRadius = '12px';
-  message.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
-  message.style.fontSize = '14px';
-  message.style.maxWidth = '200px';
+  message.style.bottom = '70px';
+  message.style.right = '70px';
+  message.style.backgroundColor = '#7E69AB';  // Soft purple from color palette
+  message.style.color = 'white';
+  message.style.padding = '10px 16px';
+  message.style.borderRadius = '20px';
+  message.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+  message.style.fontSize = '13px';
+  message.style.fontWeight = '500';
+  message.style.maxWidth = '220px';
   message.style.opacity = '0';
   message.style.transform = 'translateY(10px)';
   message.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-  message.style.pointerEvents = 'none'; // Prevent interference with button clicks
-  
-  // Add arrow pointer
-  message.style.setProperty('--arrow-color', '#F1F0FB');
-  message.style.setProperty('--arrow-size', '8px');
-  message.style.setProperty('--arrow-position', '-8px');
-  message.style.setProperty('--arrow-offset', '15px');
-  message.style.setProperty('--arrow-shadow-color', 'rgba(0, 0, 0, 0.1)');
-  
-  message.style.position = 'relative';
+  message.style.pointerEvents = 'none';
+  message.style.display = 'flex';
+  message.style.alignItems = 'center';
+  message.style.gap = '8px';
+  message.style.lineHeight = '1.4';
+
+  // Responsive adjustments
   message.innerHTML += `
     <style>
       @media (max-width: 640px) {
         .widget-message {
-          right: 70px !important;
-          bottom: 75px !important;
+          right: 60px !important;
+          bottom: 65px !important;
+          font-size: 12px !important;
+          padding: 8px 14px !important;
         }
       }
     </style>
   `;
-  
-  // Add arrow using pseudo-element
-  message.style.setProperty('content', "''");
-  message.style.setProperty('position', 'absolute');
-  message.style.setProperty('bottom', 'var(--arrow-position)');
-  message.style.setProperty('right', 'var(--arrow-offset)');
-  message.style.setProperty('border-left', 'var(--arrow-size) solid transparent');
-  message.style.setProperty('border-right', 'var(--arrow-size) solid transparent');
-  message.style.setProperty('border-top', 'var(--arrow-size) solid var(--arrow-color)');
-  
+
+  // Add chat bubble icon using SVG
+  const bubbleIcon = `
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+      <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+  message.innerHTML = bubbleIcon + message.innerHTML;
+
   container.appendChild(message);
 
   // Create iframe for testimonials content
