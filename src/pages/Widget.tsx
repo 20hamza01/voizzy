@@ -1,7 +1,6 @@
 
 import React, { useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import { useFormCustomization } from "@/hooks/useFormCustomization";
 import { TestimonialWidget } from "@/components/widget/TestimonialWidget";
 
 const Widget = () => {
@@ -14,8 +13,9 @@ const Widget = () => {
   const limit = Number(searchParams.get("limit") || "3");
   const theme = searchParams.get("theme") || "light";
   
-  // Get form customization to apply user's branding
-  const { primaryColor, showBranding } = useFormCustomization(userId);
+  // Default primary color 
+  const primaryColor = "#9b87f5"; // Voizzy default purple
+  const showBranding = true; // Default to showing branding
 
   if (!userId) return null;
 

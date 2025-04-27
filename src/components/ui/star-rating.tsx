@@ -1,14 +1,13 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
-import { useFormCustomization } from "@/hooks/useFormCustomization";
-import { useParams } from "react-router-dom";
 
 interface StarRatingProps {
   value: number;
   onChange?: (value: number) => void;
   className?: string;
   readonly?: boolean;
+  primaryColor?: string;
 }
 
 export const StarRating: React.FC<StarRatingProps> = ({
@@ -16,10 +15,8 @@ export const StarRating: React.FC<StarRatingProps> = ({
   onChange,
   className,
   readonly = false,
+  primaryColor = "#9b87f5", // Default Voizzy purple
 }) => {
-  const { userId } = useParams<{ userId: string }>();
-  const { primaryColor } = useFormCustomization(userId);
-
   return (
     <div className={cn("flex items-center gap-1", className)}>
       {[1, 2, 3, 4, 5].map((rating) => (
