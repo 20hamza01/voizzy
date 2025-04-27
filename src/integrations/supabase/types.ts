@@ -177,6 +177,19 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: number
       }
+      get_users_with_profiles: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          email: string
+          full_name: string
+          company_name: string
+          last_sign_in_at: string
+          created_at: string
+          plan_type: string
+          banned: boolean
+        }[]
+      }
       is_admin: {
         Args: { user_id: string }
         Returns: boolean
