@@ -35,7 +35,16 @@ const UserManagement = () => {
       if (error) throw error;
       
       console.log('Fetched profiles:', data);
-      setUsers(data || []);
+      
+      // Transform data to include a "banned" status based on metadata or other fields
+      // Since there is no "banned" field, we'll use plan_type as a placeholder indicator
+      // In a real application, you should add a proper banned field to your profiles table
+      const processedUsers = data?.map(user => ({
+        ...user,
+        banned: user.plan_type === 'banned' // Using plan_type as a temporary indicator
+      })) || [];
+      
+      setUsers(processedUsers);
     } catch (error: any) {
       console.error('Error fetching users:', error);
       setError(error.message || 'Failed to fetch users');
@@ -51,12 +60,12 @@ const UserManagement = () => {
 
   const toggleUserStatus = async (userId: string, currentStatus: boolean) => {
     try {
-      // Use updateUserById instead of updateUser
+      // Update the plan_type field to either 'banned' or 'free' as a temporary solution
+      // In a real application, you should add a proper banned field to your profiles table
       const { error } = await supabase
         .from('profiles')
         .update({ 
-          // Instead of updating user_metadata.banned, we'll update a banned field in profiles
-          banned: !currentStatus 
+          plan_type: currentStatus ? 'free' : 'banned' // Toggle between free and banned
         })
         .eq('id', userId);
 
