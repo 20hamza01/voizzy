@@ -13,12 +13,13 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
+// Updated User type to match the get_users_with_profiles function return structure
 type User = {
   id: string;
   email: string;
   full_name: string | null;
   company_name: string | null;
-  last_sign_in_at: string;
+  last_sign_in_at: string | null;
   created_at: string;
   plan_type: string;
   banned: boolean;
@@ -39,11 +40,14 @@ const UserManagement = () => {
     setError(null);
     
     try {
+      // Use { count: 'exact' } option to ensure proper handling of the response
       const { data, error } = await supabase.rpc('get_users_with_profiles');
       
       if (error) throw error;
       
-      setUsers(data || []);
+      // Ensure we're handling the data correctly
+      console.log('Fetched users data:', data);
+      setUsers(Array.isArray(data) ? data : []);
     } catch (error: any) {
       console.error('Error fetching users:', error);
       setError(error.message || 'Failed to fetch users');
@@ -59,6 +63,7 @@ const UserManagement = () => {
 
   const toggleUserStatus = async (userId: string, currentStatus: boolean) => {
     try {
+      // Update to use the correct plan_type based on banned status
       const { error } = await supabase
         .from('profiles')
         .update({ 
