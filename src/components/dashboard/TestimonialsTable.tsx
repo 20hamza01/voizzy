@@ -71,12 +71,15 @@ const TestimonialsTable: React.FC<TestimonialsTableProps> = ({
             </TableHeader>
             <TableBody>
               {testimonials.map((testimonial) => (
-                <TableRow key={testimonial.id}>
+                <TableRow 
+                  key={testimonial.id} 
+                  className="cursor-pointer hover:bg-gray-50"
+                  onClick={() => setSelectedTestimonial(testimonial)}
+                >
                   <TableCell className="font-medium">{testimonial.client_name}</TableCell>
                   <TableCell>{testimonial.client_role || "-"}</TableCell>
                   <TableCell 
-                    className="hidden md:table-cell max-w-xs cursor-pointer hover:text-gray-600"
-                    onClick={() => setSelectedTestimonial(testimonial)}
+                    className="hidden md:table-cell max-w-xs"
                   >
                     <div className="line-clamp-2">
                       {testimonial.content}
