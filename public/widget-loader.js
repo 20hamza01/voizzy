@@ -1,4 +1,3 @@
-
 (function() {
   // Prevent multiple instances
   if (window.VoizzyWidget) {
@@ -31,6 +30,54 @@
   container.style.right = '20px';
   container.style.zIndex = '9999';
   document.body.appendChild(container);
+
+  // Create floating message
+  const message = document.createElement('div');
+  message.innerHTML = 'See what others are saying...';
+  message.style.position = 'fixed';
+  message.style.bottom = '80px';
+  message.style.right = '80px';
+  message.style.backgroundColor = '#F1F0FB';
+  message.style.color = '#1A1F2C';
+  message.style.padding = '12px 16px';
+  message.style.borderRadius = '12px';
+  message.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+  message.style.fontSize = '14px';
+  message.style.maxWidth = '200px';
+  message.style.opacity = '0';
+  message.style.transform = 'translateY(10px)';
+  message.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+  message.style.pointerEvents = 'none'; // Prevent interference with button clicks
+  
+  // Add arrow pointer
+  message.style.setProperty('--arrow-color', '#F1F0FB');
+  message.style.setProperty('--arrow-size', '8px');
+  message.style.setProperty('--arrow-position', '-8px');
+  message.style.setProperty('--arrow-offset', '15px');
+  message.style.setProperty('--arrow-shadow-color', 'rgba(0, 0, 0, 0.1)');
+  
+  message.style.position = 'relative';
+  message.innerHTML += `
+    <style>
+      @media (max-width: 640px) {
+        .widget-message {
+          right: 70px !important;
+          bottom: 75px !important;
+        }
+      }
+    </style>
+  `;
+  
+  // Add arrow using pseudo-element
+  message.style.setProperty('content', "''");
+  message.style.setProperty('position', 'absolute');
+  message.style.setProperty('bottom', 'var(--arrow-position)');
+  message.style.setProperty('right', 'var(--arrow-offset)');
+  message.style.setProperty('border-left', 'var(--arrow-size) solid transparent');
+  message.style.setProperty('border-right', 'var(--arrow-size) solid transparent');
+  message.style.setProperty('border-top', 'var(--arrow-size) solid var(--arrow-color)');
+  
+  container.appendChild(message);
 
   // Create iframe for testimonials content
   const iframe = document.createElement('iframe');
@@ -81,7 +128,13 @@
     button.style.transform = 'scale(1)';
   });
 
-  // Toggle iframe visibility
+  // Show message with animation after a short delay
+  setTimeout(() => {
+    message.style.opacity = '1';
+    message.style.transform = 'translateY(0)';
+  }, 1000);
+
+  // Toggle iframe visibility and hide message
   let isOpen = false;
   button.addEventListener('click', () => {
     isOpen = !isOpen;
@@ -91,6 +144,8 @@
       iframe.offsetHeight;
       iframe.style.opacity = '1';
       iframe.style.transform = 'scale(1)';
+      message.style.opacity = '0';
+      message.style.transform = 'translateY(10px)';
       button.innerHTML = `
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
