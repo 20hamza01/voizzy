@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { 
   Table, 
   TableBody, 
@@ -13,6 +13,7 @@ import { TestimonialStatusBadge } from "./TestimonialStatusBadge";
 import { TestimonialActions } from "./TestimonialActions";
 import { TestimonialPagination } from "./TestimonialPagination";
 import { StarRating } from "@/components/ui/star-rating";
+import { TestimonialDialog } from "./TestimonialDialog";
 
 interface TestimonialsTableProps {
   testimonials: Testimonial[];
@@ -33,6 +34,8 @@ const TestimonialsTable: React.FC<TestimonialsTableProps> = ({
   handleStatusChange,
   handleDelete
 }) => {
+  const [selectedTestimonial, setSelectedTestimonial] = useState<Testimonial | null>(null);
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -71,7 +74,10 @@ const TestimonialsTable: React.FC<TestimonialsTableProps> = ({
                 <TableRow key={testimonial.id}>
                   <TableCell className="font-medium">{testimonial.client_name}</TableCell>
                   <TableCell>{testimonial.client_role || "-"}</TableCell>
-                  <TableCell className="hidden md:table-cell max-w-xs">
+                  <TableCell 
+                    className="hidden md:table-cell max-w-xs cursor-pointer hover:text-gray-600"
+                    onClick={() => setSelectedTestimonial(testimonial)}
+                  >
                     <div className="line-clamp-2">
                       {testimonial.content}
                     </div>
@@ -94,6 +100,16 @@ const TestimonialsTable: React.FC<TestimonialsTableProps> = ({
               ))}
             </TableBody>
           </Table>
+
+          {selectedTestimonial && (
+            <TestimonialDialog
+              testimonial={selectedTestimonial}
+              isOpen={true}
+              onClose={() => setSelectedTestimonial(null)}
+              handleStatusChange={handleStatusChange}
+              handleDelete={handleDelete}
+            />
+          )}
 
           <TestimonialPagination
             currentPage={currentPage}
