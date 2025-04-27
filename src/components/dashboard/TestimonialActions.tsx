@@ -38,6 +38,29 @@ export const TestimonialActions: React.FC<TestimonialActionsProps> = ({
           </Button>
         </>
       )}
+      
+      {testimonial.status === "approved" && (
+        <Button
+          size="sm"
+          variant="outline"
+          className="text-red-600 border-red-600 hover:bg-red-50"
+          onClick={() => handleStatusChange(testimonial.id, "rejected")}
+        >
+          <X className="h-4 w-4 mr-1" /> Reject
+        </Button>
+      )}
+
+      {testimonial.status === "rejected" && (
+        <Button
+          size="sm"
+          variant="outline"
+          className="text-green-600 border-green-600 hover:bg-green-50"
+          onClick={() => handleStatusChange(testimonial.id, "approved")}
+        >
+          <Check className="h-4 w-4 mr-1" /> Approve
+        </Button>
+      )}
+
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button
