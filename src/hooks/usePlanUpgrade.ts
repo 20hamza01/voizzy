@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -7,17 +7,31 @@ import { useToast } from "@/hooks/use-toast";
 export const usePlanUpgrade = () => {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
-  const [currentPlan, setCurrentPlan] = useState<string>("free");
+  const queryClient = useQueryClient();
 
-  const upgradePlan = async (newPlan: string) => {
-    if (!user) return;
-    
-    setIsLoading(true);
-    setError(null);
+  // Fetch current plan
+  const { data: currentPlan, isLoading } = useQuery({
+    queryKey: ["userPlan", user?.id],
+    queryFn: async () => {
+      if (!user) return "free";
+      
+      const { data: profile, error } = await supabase
+        .from("profiles")
+        .select("plan_type")
+        .eq("id", user.id)
+        .single();
 
-    try {
+      if (error) throw error;
+      return profile?.plan_type || "free";
+    },
+    enabled: !!user,
+  });
+
+  // Upgrade plan mutation
+  const { mutate: upgradePlan, error } = useMutation({
+    mutationFn: async (newPlan: string) => {
+      if (!user) throw new Error("No user logged in");
+
       // Get current plan
       const { data: profile } = await supabase
         .from("profiles")
@@ -41,33 +55,36 @@ export const usePlanUpgrade = () => {
         .insert({
           user_id: user.id,
           old_plan: oldPlan,
-          new_plan: newPlan
+          new_plan: newPlan,
         });
 
       if (historyError) throw historyError;
-
-      setCurrentPlan(newPlan);
+      
+      return newPlan;
+    },
+    onSuccess: (newPlan) => {
+      // Invalidate and refetch plan data
+      queryClient.invalidateQueries({ queryKey: ["userPlan", user?.id] });
+      
       toast({
         title: "Plan Updated",
         description: `Successfully upgraded to ${newPlan} plan`,
       });
-    } catch (err) {
+    },
+    onError: (err) => {
       console.error("Error upgrading plan:", err);
-      setError(err as Error);
       toast({
         title: "Error",
         description: "Failed to upgrade plan. Please try again.",
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+  });
 
   return {
-    currentPlan,
+    currentPlan: currentPlan || "free",
     isLoading,
     error,
-    upgradePlan
+    upgradePlan,
   };
 };
