@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -14,7 +14,7 @@ import { useFormCustomization } from "@/hooks/useFormCustomization";
 const TestimonialForm = () => {
   const { userId } = useParams<{ userId: string }>();
   const { handleSubmit, isSubmitting, submitError } = useTestimonialSubmit(userId);
-  const { primaryColor, showBranding, logoUrl } = useFormCustomization(userId);
+  const { primaryColor, showBranding, logoUrl, isLoading } = useFormCustomization(userId);
   
   const form = useForm<TestimonialFormValues>({
     resolver: zodResolver(testimonialSchema),
@@ -26,16 +26,30 @@ const TestimonialForm = () => {
     },
   });
 
-  const formStyle = {
-    "--primary-color": primaryColor,
-  } as React.CSSProperties;
+  // Apply custom styles using CSS variables
+  useEffect(() => {
+    if (primaryColor) {
+      document.documentElement.style.setProperty('--primary-color', primaryColor);
+      console.log("Applied primary color:", primaryColor);
+    }
+  }, [primaryColor]);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8" style={formStyle}>
+    <div 
+      className="min-h-screen bg-gray-50 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+    >
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow">
         {logoUrl && (
           <div className="flex justify-center mb-6">
-            <img src={logoUrl} alt="Company logo" className="h-16 object-contain" />
+            <img 
+              src={logoUrl} 
+              alt="Company logo" 
+              className="h-16 object-contain" 
+              onError={(e) => {
+                console.error("Error loading logo:", e);
+                (e.target as HTMLImageElement).style.display = 'none';
+              }}
+            />
           </div>
         )}
         

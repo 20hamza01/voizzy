@@ -119,15 +119,24 @@ export const useFormSettings = (userId: string | undefined) => {
   const uploadLogo = async (file: File) => {
     if (!userId) return null;
     setUploading(true);
+    
     try {
+      console.log("Starting logo upload process...");
+      
       // Verify premium plan
-      const { data: profile } = await supabase
+      const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("plan_type")
         .eq("id", userId)
         .single();
       
+      if (profileError) {
+        console.error("Error checking user profile:", profileError);
+        throw new Error("Failed to verify premium status");
+      }
+      
       if (profile?.plan_type !== 'premium') {
+        console.log("User doesn't have premium plan, aborting upload");
         toast({
           title: "Premium Required",
           description: "Logo upload requires a Premium plan. Please upgrade to continue.",
@@ -136,26 +145,60 @@ export const useFormSettings = (userId: string | undefined) => {
         return null;
       }
 
+      // Verify the bucket exists
+      const { data: buckets, error: bucketError } = await supabase
+        .storage
+        .listBuckets();
+        
+      console.log("Available buckets:", buckets);
+      
+      if (bucketError) {
+        console.error("Error listing buckets:", bucketError);
+        throw new Error("Storage system unavailable");
+      }
+      
+      const bucketExists = buckets?.some(b => b.name === 'form-assets');
+      if (!bucketExists) {
+        console.error("form-assets bucket does not exist");
+        throw new Error("Storage configuration issue");
+      }
+
       const fileExt = file.name.split(".").pop();
       const filePath = `${userId}/logo.${fileExt}`;
+      console.log(`Uploading to path: ${filePath}`);
 
-      const { error: uploadError } = await supabase.storage
+      const { error: uploadError, data: uploadData } = await supabase.storage
         .from("form-assets")
         .upload(filePath, file, { upsert: true });
 
-      if (uploadError) throw uploadError;
+      if (uploadError) {
+        console.error("Error uploading file:", uploadError);
+        throw uploadError;
+      }
+      
+      console.log("Upload successful:", uploadData);
 
+      // Get public URL after successful upload
       const { data: { publicUrl } } = supabase.storage
         .from("form-assets")
         .getPublicUrl(filePath);
+        
+      console.log("Generated public URL:", publicUrl);
 
+      // Update settings with new logo URL
       await updateSettings.mutateAsync({ logo_url: publicUrl });
+      
+      toast({
+        title: "Success",
+        description: "Logo uploaded successfully",
+      });
+      
       return publicUrl;
     } catch (error) {
       console.error("Error uploading logo:", error);
       toast({
         title: "Error",
-        description: "Failed to upload logo",
+        description: "Failed to upload logo. Please try again later.",
         variant: "destructive",
       });
       return null;
