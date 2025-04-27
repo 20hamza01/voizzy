@@ -12,7 +12,7 @@ interface NavItem {
 const navigation: NavItem[] = [
   { name: "Dashboard", href: "/dashboard" },
   { name: "Testimonials", href: "/dashboard/testimonials" },
-  { name: "Form", href: "/dashboard/form" },
+  { name: "Plans", href: "/dashboard/plans" },
   { name: "Settings", href: "/dashboard/settings" },
 ];
 
