@@ -16,6 +16,7 @@ import AdminProtectedRoute from "./components/auth/AdminProtectedRoute";
 import Plans from "./pages/Plans";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -67,6 +68,14 @@ function App() {
               <AdminProtectedRoute>
                 <AdminDashboard />
               </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
             }
           />
         </Routes>
