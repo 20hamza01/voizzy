@@ -68,14 +68,14 @@ export const usePlanUpgrade = () => {
       
       toast({
         title: "Plan Updated",
-        description: `Successfully upgraded to ${newPlan} plan`,
+        description: `Successfully ${newPlan === "basic" ? "upgraded to" : "switched to"} ${newPlan} plan`,
       });
     },
     onError: (err) => {
-      console.error("Error upgrading plan:", err);
+      console.error("Error updating plan:", err);
       toast({
         title: "Error",
-        description: "Failed to upgrade plan. Please try again.",
+        description: "Failed to update plan. Please try again.",
         variant: "destructive",
       });
     },

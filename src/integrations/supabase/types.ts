@@ -57,36 +57,6 @@ export type Database = {
         }
         Relationships: []
       }
-      form_settings: {
-        Row: {
-          created_at: string
-          id: string
-          logo_url: string | null
-          primary_color: string | null
-          show_branding: boolean
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          logo_url?: string | null
-          primary_color?: string | null
-          show_branding?: boolean
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          logo_url?: string | null
-          primary_color?: string | null
-          show_branding?: boolean
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
       plan_changes: {
         Row: {
           changed_at: string

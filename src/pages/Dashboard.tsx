@@ -8,7 +8,6 @@ import ShareTestimonialForm from "@/components/dashboard/ShareTestimonialForm";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import { useTestimonialRealtime } from "@/hooks/useTestimonialRealtime";
 import { TestimonialEmbedOptions } from "@/components/dashboard/TestimonialEmbedOptions";
-import { FormSettings } from "@/components/dashboard/FormSettings";
 import { useDashboardStats } from "@/hooks/useDashboardStats";
 
 const Dashboard = () => {
@@ -55,7 +54,6 @@ const Dashboard = () => {
           </div>
 
           <TestimonialEmbedOptions />
-          <FormSettings />
         </div>
       </div>
     </DashboardLayout>

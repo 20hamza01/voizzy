@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -26,7 +27,7 @@ const Plans = () => {
         "Standard form",
         "Email support"
       ],
-      limitations: ["Limited to 3 testimonials", "No customization"],
+      limitations: ["Limited to 3 testimonials"],
       button: currentPlan === "free" ? "Current Plan" : "Downgrade to Free",
       isPopular: false
     },
@@ -40,23 +41,9 @@ const Plans = () => {
         "Priority support",
         "Custom domains"
       ],
-      limitations: ["No form customization"],
+      limitations: [],
       button: currentPlan === "basic" ? "Current Plan" : "Upgrade to Basic",
       isPopular: true
-    },
-    {
-      name: "Premium",
-      price: "49",
-      description: "For businesses that need more",
-      features: [
-        "Everything in Basic",
-        "Custom branding",
-        "Form customization",
-        "Premium support"
-      ],
-      limitations: [],
-      button: currentPlan === "premium" ? "Current Plan" : "Upgrade to Premium",
-      isPopular: false
     }
   ];
 
@@ -71,7 +58,7 @@ const Plans = () => {
         </div>
 
         <TooltipProvider>
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2">
             {plans.map((plan) => (
               <div
                 key={plan.name}
