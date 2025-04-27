@@ -13,14 +13,13 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-// Updated User type to match the get_users_with_profiles function return structure
 type User = {
-  id: string;
+  id: string; // Supabase returns UUIDs as strings
   email: string;
   full_name: string | null;
   company_name: string | null;
-  last_sign_in_at: string | null;
-  created_at: string;
+  last_sign_in_at: string | null; // Supabase returns timestamps as ISO strings
+  created_at: string; // Supabase returns timestamps as ISO strings
   plan_type: string;
   banned: boolean;
 };
@@ -40,14 +39,19 @@ const UserManagement = () => {
     setError(null);
     
     try {
-      // Use { count: 'exact' } option to ensure proper handling of the response
       const { data, error } = await supabase.rpc('get_users_with_profiles');
       
       if (error) throw error;
       
-      // Ensure we're handling the data correctly
-      console.log('Fetched users data:', data);
-      setUsers(Array.isArray(data) ? data : []);
+      // Ensure we're handling the data correctly and log it for debugging
+      console.log('Raw users data:', data);
+      
+      if (Array.isArray(data)) {
+        setUsers(data);
+      } else {
+        console.error('Unexpected data format:', data);
+        throw new Error('Unexpected data format received from server');
+      }
     } catch (error: any) {
       console.error('Error fetching users:', error);
       setError(error.message || 'Failed to fetch users');
@@ -61,9 +65,18 @@ const UserManagement = () => {
     }
   };
 
+  const formatDate = (dateString: string | null) => {
+    if (!dateString) return 'Never';
+    try {
+      return new Date(dateString).toLocaleDateString();
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return 'Invalid date';
+    }
+  };
+
   const toggleUserStatus = async (userId: string, currentStatus: boolean) => {
     try {
-      // Update to use the correct plan_type based on banned status
       const { error } = await supabase
         .from('profiles')
         .update({ 
@@ -133,12 +146,7 @@ const UserManagement = () => {
                   <TableCell>{user.email || 'N/A'}</TableCell>
                   <TableCell>{user.full_name || 'N/A'}</TableCell>
                   <TableCell>{user.company_name || 'N/A'}</TableCell>
-                  <TableCell>
-                    {user.last_sign_in_at 
-                      ? new Date(user.last_sign_in_at).toLocaleDateString()
-                      : 'Never'
-                    }
-                  </TableCell>
+                  <TableCell>{formatDate(user.last_sign_in_at)}</TableCell>
                   <TableCell>
                     {user.banned ? (
                       <span className="text-destructive">Banned</span>
