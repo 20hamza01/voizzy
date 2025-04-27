@@ -17,10 +17,9 @@ const Analytics = () => {
 
   const fetchStats = async () => {
     try {
-      // Use explicit count(*) and ensure we're counting all profiles
-      const { count: totalUsers, error: usersError } = await supabase
-        .from('profiles')
-        .select('*', { count: 'exact', head: true });
+      // Use the new function to get total users count
+      const { data: totalUsers, error: usersError } = await supabase
+        .rpc('get_total_users_count');
 
       if (usersError) {
         console.error('Error fetching users:', usersError);

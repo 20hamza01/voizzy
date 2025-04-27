@@ -173,6 +173,10 @@ export type Database = {
         Args: { user_id: string }
         Returns: undefined
       }
+      get_total_users_count: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
       is_admin: {
         Args: { user_id: string }
         Returns: boolean
