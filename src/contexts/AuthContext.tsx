@@ -29,11 +29,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         console.log("Auth state change event:", event, { hasSession: !!session, userId: session?.user?.id });
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
+
+        // If the session is lost, show a message
+        if (event === 'SIGNED_OUT') {
+          toast({
+            title: "Session ended",
+            description: "You have been signed out successfully",
+          });
+        }
       }
     );
 
@@ -46,13 +54,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }).catch(error => {
       console.error("Error getting session:", error);
       setLoading(false);
+      toast({
+        title: "Error",
+        description: "Failed to check authentication status",
+        variant: "destructive",
+      });
     });
 
     return () => {
       console.log("Cleaning up auth subscription");
       subscription.unsubscribe();
     };
-  }, []);
+  }, [toast]);
 
   const signOut = async () => {
     try {
@@ -77,6 +90,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         description: "Please try again",
         variant: "destructive",
       });
+      throw error; // Re-throw to handle in component
     }
   };
 
@@ -86,8 +100,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     loading,
     signOut
   };
-
-  console.log("AuthContext values:", { hasUser: !!user, hasSession: !!session, loading });
 
   return (
     <AuthContext.Provider value={contextValue}>

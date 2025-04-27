@@ -13,12 +13,13 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await signOut();
+      // Only navigate after successful signout
       navigate("/");
     } catch (error) {
       console.error("Error during logout:", error);
       toast({
         title: "Error signing out",
-        description: "Please try again",
+        description: "Please try again. If the problem persists, try refreshing the page.",
         variant: "destructive",
       });
     }
