@@ -24,39 +24,33 @@ const AdminProtectedRoute = ({ children }: AdminProtectedRouteProps) => {
       hasSession: !!session 
     });
 
-    // Wait until both auth and admin checks are complete
-    if (authLoading || adminLoading) {
-      console.log("Still loading auth or admin status, waiting...");
-      return;
-    }
+    // Only proceed with checks when both auth and admin status are loaded
+    if (!authLoading && !adminLoading) {
+      if (!user || !session) {
+        console.log("No user or session, redirecting to login");
+        toast({
+          title: "Authentication required",
+          description: "Please sign in to access this page",
+          variant: "destructive",
+        });
+        navigate("/login");
+        return;
+      }
 
-    if (!user || !session) {
-      console.log("User not authenticated, redirecting to login");
-      toast({
-        title: "Authentication required",
-        description: "Please sign in to access this page",
-        variant: "destructive",
-      });
-      navigate("/login");
-      return;
-    }
-
-    if (!isAdmin) {
-      console.log("User is not admin, redirecting to dashboard", { userId: user.id });
-      toast({
-        title: "Access Denied",
-        description: "You need admin privileges to access this page",
-        variant: "destructive",
-      });
-      navigate("/dashboard");
-    } else {
-      console.log("User confirmed as admin, allowing access", { userId: user.id });
+      if (!isAdmin) {
+        console.log("User is not admin, redirecting to dashboard");
+        toast({
+          title: "Access Denied",
+          description: "You need admin privileges to access this page",
+          variant: "destructive",
+        });
+        navigate("/dashboard");
+      }
     }
   }, [isAdmin, adminLoading, authLoading, user, session, navigate, toast]);
 
-  // Show loading state while checking auth/admin status
+  // Show loading state when checking auth/admin status
   if (authLoading || adminLoading) {
-    console.log("Rendering loading state");
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="flex flex-col items-center gap-4">
@@ -67,7 +61,7 @@ const AdminProtectedRoute = ({ children }: AdminProtectedRouteProps) => {
     );
   }
 
-  // Only render children if user is admin (and we're not loading)
+  // Only render children if user is admin
   return isAdmin ? <>{children}</> : null;
 };
 
