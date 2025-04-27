@@ -10,26 +10,25 @@ import TestimonialForm from "./pages/TestimonialForm";
 import TestimonialSuccess from "./pages/TestimonialSuccess";
 import Onboarding from "./pages/Onboarding";
 import EmbedWall from "./pages/EmbedWall";
-import Widget from "./pages/Widget"; // Add import for Widget page
+import Widget from "./pages/Widget";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminProtectedRoute from "./components/auth/AdminProtectedRoute";
+import Plans from "./pages/Plans";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
-import Plans from "./pages/Plans";
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <Routes>
-          {/* Public routes */}
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/collect/:userId" element={<TestimonialForm />} />
           <Route path="/collect/:userId/success" element={<TestimonialSuccess />} />
           <Route path="/embed/:userId" element={<EmbedWall />} />
-          <Route path="/widget/:userId" element={<Widget />} /> {/* Add Widget route */}
-
-          {/* Protected routes */}
+          <Route path="/widget/:userId" element={<Widget />} />
           <Route
             path="/dashboard"
             element={
@@ -60,6 +59,14 @@ function App() {
               <ProtectedRoute>
                 <Onboarding />
               </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboard />
+              </AdminProtectedRoute>
             }
           />
         </Routes>

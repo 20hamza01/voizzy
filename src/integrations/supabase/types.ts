@@ -9,6 +9,54 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      activity_logs: {
+        Row: {
+          action: string
+          created_at: string
+          entity_id: string | null
+          entity_type: string
+          id: string
+          metadata: Json | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          metadata?: Json | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          metadata?: Json | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      admin_users: {
+        Row: {
+          created_at: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       form_settings: {
         Row: {
           created_at: string
@@ -151,7 +199,28 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      add_admin_user: {
+        Args: { user_id: string }
+        Returns: undefined
+      }
+      is_admin: {
+        Args: { user_id: string }
+        Returns: boolean
+      }
+      log_activity: {
+        Args: {
+          user_id: string
+          action: string
+          entity_type: string
+          entity_id?: string
+          metadata?: Json
+        }
+        Returns: undefined
+      }
+      remove_admin_user: {
+        Args: { user_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       testimonial_status: "pending" | "approved" | "rejected"
