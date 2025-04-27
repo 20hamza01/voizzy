@@ -18,10 +18,16 @@ const Register = () => {
     }
   }, [user, navigate]);
 
-  const handleRegister = async (email: string, password: string) => {
+  const handleRegister = async (email: string, password: string, fullName?: string, companyName?: string) => {
     const { error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          full_name: fullName,
+          company_name: companyName,
+        },
+      },
     });
 
     if (error) {

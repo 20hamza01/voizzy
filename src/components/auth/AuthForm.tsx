@@ -8,20 +8,32 @@ import { useToast } from "@/components/ui/use-toast";
 
 interface AuthFormProps {
   type: "login" | "register";
-  onSubmit: (email: string, password: string) => Promise<void>;
+  onSubmit: (email: string, password: string, fullName?: string, companyName?: string) => Promise<void>;
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      await onSubmit(email, password);
+      if (type === "register") {
+        if (password !== confirmPassword) {
+          throw new Error("Passwords do not match");
+        }
+        await onSubmit(email, password, fullName, companyName);
+      } else {
+        await onSubmit(email, password);
+      }
+
       toast({
         title: type === "login" ? "Welcome back!" : "Account created successfully!",
         description: type === "login" ? "You are now signed in." : "You can now sign in with your new account.",
@@ -30,7 +42,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
       console.error("Auth error:", error);
       toast({
         title: "Error",
-        description: type === "login" ? "Invalid email or password" : "Could not create account",
+        description: error instanceof Error ? error.message : "An error occurred",
         variant: "destructive",
       });
     } finally {
@@ -47,10 +59,36 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
         <p className="text-gray-500 dark:text-gray-400">
           {type === "login"
             ? "Enter your email to sign in to your account"
-            : "Enter your email below to create your account"}
+            : "Enter your details below to create your account"}
         </p>
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
+        {type === "register" && (
+          <>
+            <div className="space-y-2">
+              <Label htmlFor="fullName">Full Name</Label>
+              <Input
+                id="fullName"
+                type="text"
+                placeholder="John Doe"
+                required
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="companyName">Company Name</Label>
+              <Input
+                id="companyName"
+                type="text"
+                placeholder="Acme Inc"
+                required
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+              />
+            </div>
+          </>
+        )}
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -73,6 +111,19 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        {type === "register" && (
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Input
+              id="confirmPassword"
+              type="password"
+              placeholder="••••••••"
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
+        )}
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Loading..." : type === "login" ? "Sign In" : "Sign Up"}
         </Button>
