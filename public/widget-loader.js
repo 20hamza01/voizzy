@@ -1,5 +1,15 @@
 
 (function() {
+  // Prevent multiple instances
+  if (window.VoizzyWidget) {
+    console.warn("Voizzy Widget already initialized");
+    return;
+  }
+  
+  window.VoizzyWidget = {
+    initialized: true
+  };
+
   // Find the script tag that includes this script
   const scripts = document.getElementsByTagName('script');
   const currentScript = document.currentScript || scripts[scripts.length - 1];
@@ -22,7 +32,7 @@
   container.style.zIndex = '9999';
   document.body.appendChild(container);
 
-  // Create iframe element (initially hidden)
+  // Create iframe for testimonials content
   const iframe = document.createElement('iframe');
   iframe.src = `${currentScript.src.substring(0, currentScript.src.lastIndexOf('/'))}/widget/${userId}?limit=${limit}&theme=${theme}`;
   iframe.style.position = 'fixed';
