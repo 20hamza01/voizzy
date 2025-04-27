@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Check, Info } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
@@ -72,86 +72,88 @@ const Plans = () => {
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {plans.map((plan) => (
-            <div
-              key={plan.name}
-              className={`relative rounded-lg border p-6 shadow-sm ${
-                plan.isPopular ? "border-primary" : ""
-              }`}
-            >
-              {plan.isPopular && (
-                <Badge
-                  className="absolute -top-2 right-4"
-                  variant="secondary"
-                >
-                  Most Popular
-                </Badge>
-              )}
-
-              {currentPlan === plan.name.toLowerCase() && (
-                <Badge
-                  className="absolute -top-2 left-4"
-                  variant="outline"
-                >
-                  Current Plan
-                </Badge>
-              )}
-
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold">{plan.name}</h3>
-                <div className="flex items-baseline">
-                  <span className="text-3xl font-bold">${plan.price}</span>
-                  <span className="ml-1 text-muted-foreground">/month</span>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  {plan.description}
-                </p>
-
-                <ul className="space-y-2">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2">
-                      <Check className="h-4 w-4 text-primary" />
-                      <span className="text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {plan.limitations.length > 0 && (
-                  <div className="space-y-2">
-                    <p className="text-sm font-medium">Limitations:</p>
-                    <ul className="space-y-1">
-                      {plan.limitations.map((limitation) => (
-                        <li key={limitation} className="flex items-center gap-2">
-                          <Tooltip>
-                            <TooltipTrigger>
-                              <Info className="h-4 w-4 text-muted-foreground" />
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>{limitation}</p>
-                            </TooltipContent>
-                          </Tooltip>
-                          <span className="text-sm text-muted-foreground">
-                            {limitation}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+        <TooltipProvider>
+          <div className="grid gap-6 md:grid-cols-3">
+            {plans.map((plan) => (
+              <div
+                key={plan.name}
+                className={`relative rounded-lg border p-6 shadow-sm ${
+                  plan.isPopular ? "border-primary" : ""
+                }`}
+              >
+                {plan.isPopular && (
+                  <Badge
+                    className="absolute -top-2 right-4"
+                    variant="secondary"
+                  >
+                    Most Popular
+                  </Badge>
                 )}
 
-                <Button
-                  className="w-full"
-                  variant={currentPlan === plan.name.toLowerCase() ? "outline" : "default"}
-                  disabled={currentPlan === plan.name.toLowerCase() || isLoading}
-                  onClick={() => upgradePlan(plan.name.toLowerCase())}
-                >
-                  {plan.button}
-                </Button>
+                {currentPlan === plan.name.toLowerCase() && (
+                  <Badge
+                    className="absolute -top-2 left-4"
+                    variant="outline"
+                  >
+                    Current Plan
+                  </Badge>
+                )}
+
+                <div className="space-y-4">
+                  <h3 className="text-xl font-semibold">{plan.name}</h3>
+                  <div className="flex items-baseline">
+                    <span className="text-3xl font-bold">${plan.price}</span>
+                    <span className="ml-1 text-muted-foreground">/month</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    {plan.description}
+                  </p>
+
+                  <ul className="space-y-2">
+                    {plan.features.map((feature) => (
+                      <li key={feature} className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-primary" />
+                        <span className="text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {plan.limitations.length > 0 && (
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium">Limitations:</p>
+                      <ul className="space-y-1">
+                        {plan.limitations.map((limitation) => (
+                          <li key={limitation} className="flex items-center gap-2">
+                            <Tooltip>
+                              <TooltipTrigger>
+                                <Info className="h-4 w-4 text-muted-foreground" />
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>{limitation}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                            <span className="text-sm text-muted-foreground">
+                              {limitation}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  <Button
+                    className="w-full"
+                    variant={currentPlan === plan.name.toLowerCase() ? "outline" : "default"}
+                    disabled={currentPlan === plan.name.toLowerCase() || isLoading}
+                    onClick={() => upgradePlan(plan.name.toLowerCase())}
+                  >
+                    {plan.button}
+                  </Button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </TooltipProvider>
       </div>
     </DashboardLayout>
   );
