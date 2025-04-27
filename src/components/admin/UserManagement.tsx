@@ -40,12 +40,13 @@ const UserManagement = () => {
 
   const toggleUserStatus = async (userId: string, currentStatus: boolean) => {
     try {
+      // Use the correct property name 'ban' instead of 'banned'
       await supabase.auth.admin.updateUserById(userId, {
-        banned: !currentStatus,
+        ban: !currentStatus,
       });
       toast({
         title: "Success",
-        description: `User ${currentStatus ? 'banned' : 'unbanned'} successfully`,
+        description: `User ${currentStatus ? 'unbanned' : 'banned'} successfully`,
       });
       fetchUsers();
     } catch (error) {
