@@ -40,6 +40,7 @@ const Settings = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [passwordLoading, setPasswordLoading] = useState(false);
 
   const profileForm = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
@@ -117,9 +118,27 @@ const Settings = () => {
   };
 
   const onPasswordSubmit = async (data: PasswordFormValues) => {
-    setLoading(true);
+    if (!user || !user.email) return;
+    setPasswordLoading(true);
 
     try {
+      // Step 1: Verify the current password by signing in
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: user.email,
+        password: data.currentPassword,
+      });
+
+      if (signInError) {
+        toast({
+          title: "Incorrect current password",
+          description: "Please verify your current password and try again",
+          variant: "destructive",
+        });
+        setPasswordLoading(false);
+        return;
+      }
+
+      // Step 2: If verification succeeded, update the password
       const { error } = await supabase.auth.updateUser({
         password: data.newPassword,
       });
@@ -135,11 +154,11 @@ const Settings = () => {
       console.error('Error updating password:', error);
       toast({
         title: "Error updating password",
-        description: "Please make sure your current password is correct",
+        description: "Please try again later",
         variant: "destructive",
       });
     } finally {
-      setLoading(false);
+      setPasswordLoading(false);
     }
   };
 
@@ -190,7 +209,7 @@ const Settings = () => {
                   />
 
                   <Button type="submit" disabled={loading}>
-                    Save Changes
+                    {loading ? "Saving..." : "Save Changes"}
                   </Button>
                 </form>
               </Form>
@@ -246,8 +265,8 @@ const Settings = () => {
                     )}
                   />
 
-                  <Button type="submit" disabled={loading}>
-                    Update Password
+                  <Button type="submit" disabled={passwordLoading}>
+                    {passwordLoading ? "Updating..." : "Update Password"}
                   </Button>
                 </form>
               </Form>
