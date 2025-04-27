@@ -1,7 +1,5 @@
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -29,7 +27,7 @@ const Plans = () => {
         "Email support"
       ],
       limitations: ["Limited to 3 testimonials", "No customization"],
-      button: "Current Plan",
+      button: currentPlan === "free" ? "Current Plan" : "Downgrade to Free",
       isPopular: false
     },
     {
@@ -43,7 +41,7 @@ const Plans = () => {
         "Custom domains"
       ],
       limitations: ["No form customization"],
-      button: "Upgrade to Basic",
+      button: currentPlan === "basic" ? "Current Plan" : "Upgrade to Basic",
       isPopular: true
     },
     {
@@ -57,7 +55,7 @@ const Plans = () => {
         "Premium support"
       ],
       limitations: [],
-      button: "Upgrade to Premium",
+      button: currentPlan === "premium" ? "Current Plan" : "Upgrade to Premium",
       isPopular: false
     }
   ];
