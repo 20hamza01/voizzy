@@ -2,16 +2,20 @@
 import React from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useFormSettings } from "@/hooks/useFormSettings";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { usePremiumCheck } from "@/hooks/usePremiumCheck";
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { Palette, Upload } from "lucide-react";
+import { Palette, Upload, Lock } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export const FormSettings = () => {
   const { user } = useAuth();
   const { settings, updateSettings, uploadLogo, uploading } = useFormSettings(user?.id);
+  const { isPremium, isLoading: checkingPremium } = usePremiumCheck();
+  const navigate = useNavigate();
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleColorChange = (color: string) => {
@@ -29,14 +33,39 @@ export const FormSettings = () => {
     }
   };
 
+  const handleUpgradeClick = () => {
+    navigate("/dashboard/plans");
+  };
+
+  if (checkingPremium) {
+    return null; // Or a loading spinner
+  }
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Form Customization</CardTitle>
+        {!isPremium && (
+          <CardDescription className="flex items-center gap-2 text-yellow-600">
+            <Lock className="h-4 w-4" />
+            Some features require a Premium plan
+          </CardDescription>
+        )}
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="primary-color">Primary Color</Label>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="primary-color">Primary Color</Label>
+            {!isPremium && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleUpgradeClick}
+              >
+                Upgrade to Premium
+              </Button>
+            )}
+          </div>
           <div className="flex gap-4 items-center">
             <Palette className="h-4 w-4" />
             <Input
@@ -44,12 +73,30 @@ export const FormSettings = () => {
               type="color"
               value={settings?.primary_color || "#000000"}
               onChange={(e) => handleColorChange(e.target.value)}
+              disabled={!isPremium}
+              className={!isPremium ? "opacity-50 cursor-not-allowed" : ""}
             />
           </div>
+          {!isPremium && (
+            <p className="text-sm text-muted-foreground">
+              Customize your form's colors with our Premium plan
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
-          <Label>Logo</Label>
+          <div className="flex items-center justify-between">
+            <Label>Logo</Label>
+            {!isPremium && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleUpgradeClick}
+              >
+                Upgrade to Premium
+              </Button>
+            )}
+          </div>
           <div className="flex flex-col gap-4">
             {settings?.logo_url && (
               <img
@@ -64,16 +111,22 @@ export const FormSettings = () => {
               className="hidden"
               accept="image/*"
               onChange={handleLogoUpload}
+              disabled={!isPremium}
             />
             <Button
               variant="outline"
               onClick={() => fileInputRef.current?.click()}
-              disabled={uploading}
-              className="w-full"
+              disabled={!isPremium || uploading}
+              className={!isPremium ? "opacity-50" : ""}
             >
               <Upload className="h-4 w-4 mr-2" />
               {uploading ? "Uploading..." : "Upload Logo"}
             </Button>
+            {!isPremium && (
+              <p className="text-sm text-muted-foreground">
+                Add your brand logo with our Premium plan
+              </p>
+            )}
           </div>
         </div>
 

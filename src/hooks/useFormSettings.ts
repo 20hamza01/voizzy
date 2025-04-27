@@ -41,7 +41,22 @@ export const useFormSettings = (userId: string | undefined) => {
         .select()
         .single();
 
-      if (error) throw error;
+      if (error) {
+        if (error.message.includes('Premium plan required')) {
+          toast({
+            title: "Premium Required",
+            description: "This feature requires a Premium plan. Please upgrade to continue.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Error",
+            description: "Failed to update form settings",
+            variant: "destructive",
+          });
+        }
+        throw error;
+      }
       return data;
     },
     onSuccess: () => {
@@ -50,14 +65,6 @@ export const useFormSettings = (userId: string | undefined) => {
         title: "Success",
         description: "Form settings updated successfully",
       });
-    },
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: "Failed to update form settings",
-        variant: "destructive",
-      });
-      console.error("Error updating form settings:", error);
     },
   });
 
