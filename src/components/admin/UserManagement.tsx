@@ -40,10 +40,8 @@ const UserManagement = () => {
 
   const toggleUserStatus = async (userId: string, currentStatus: boolean) => {
     try {
-      // Use updateUser instead of updateUserById
-      const { error } = await supabase.auth.admin.updateUser({
-        id: userId,
-        // Use user_metadata to set banned status
+      // Use updateUserById instead of updateUser
+      const { error } = await supabase.auth.admin.updateUserById(userId, {
         user_metadata: { 
           banned: !currentStatus 
         }
