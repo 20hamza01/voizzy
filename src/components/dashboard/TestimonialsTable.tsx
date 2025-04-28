@@ -45,6 +45,10 @@ const TestimonialsTable: React.FC<TestimonialsTableProps> = ({
     });
   };
 
+  const handleRowCellClick = (testimonial: Testimonial) => {
+    setSelectedTestimonial(testimonial);
+  };
+
   return (
     <div className="space-y-4">
       {loading ? (
@@ -73,25 +77,52 @@ const TestimonialsTable: React.FC<TestimonialsTableProps> = ({
               {testimonials.map((testimonial) => (
                 <TableRow 
                   key={testimonial.id} 
-                  className="cursor-pointer hover:bg-gray-50"
-                  onClick={() => setSelectedTestimonial(testimonial)}
+                  className="hover:bg-gray-50"
                 >
-                  <TableCell className="font-medium">{testimonial.client_name}</TableCell>
-                  <TableCell>{testimonial.client_role || "-"}</TableCell>
                   <TableCell 
-                    className="hidden md:table-cell max-w-xs"
+                    className="font-medium cursor-pointer"
+                    onClick={() => handleRowCellClick(testimonial)}
+                  >
+                    {testimonial.client_name}
+                  </TableCell>
+                  
+                  <TableCell
+                    className="cursor-pointer"
+                    onClick={() => handleRowCellClick(testimonial)}
+                  >
+                    {testimonial.client_role || "-"}
+                  </TableCell>
+                  
+                  <TableCell 
+                    className="hidden md:table-cell max-w-xs cursor-pointer"
+                    onClick={() => handleRowCellClick(testimonial)}
                   >
                     <div className="line-clamp-2">
                       {testimonial.content}
                     </div>
                   </TableCell>
-                  <TableCell>
+                  
+                  <TableCell
+                    className="cursor-pointer"
+                    onClick={() => handleRowCellClick(testimonial)}
+                  >
                     <StarRating value={testimonial.rating || 0} readonly className="scale-75 origin-left" />
                   </TableCell>
-                  <TableCell>{formatDate(testimonial.created_at)}</TableCell>
-                  <TableCell>
+                  
+                  <TableCell
+                    className="cursor-pointer"
+                    onClick={() => handleRowCellClick(testimonial)}
+                  >
+                    {formatDate(testimonial.created_at)}
+                  </TableCell>
+                  
+                  <TableCell
+                    className="cursor-pointer"
+                    onClick={() => handleRowCellClick(testimonial)}
+                  >
                     <TestimonialStatusBadge status={testimonial.status} />
                   </TableCell>
+                  
                   <TableCell>
                     <TestimonialActions
                       testimonial={testimonial}
