@@ -2,6 +2,7 @@
 import React from "react";
 import { Testimonial } from "@/types/testimonial";
 import { StarRating } from "@/components/ui/star-rating";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface TestimonialCardProps {
   testimonial: Testimonial;
@@ -14,9 +15,11 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
   theme,
   primaryColor,
 }) => {
+  const isMobile = useIsMobile();
+  
   return (
     <div 
-      className="p-4 rounded-lg transition-colors"
+      className="p-3 sm:p-4 rounded-lg transition-colors"
       style={{ 
         backgroundColor: theme === "dark" ? "#1f2937" : "#f9fafb",
         borderLeft: `3px solid ${primaryColor || "#9b87f5"}`,
@@ -27,13 +30,13 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
           <StarRating 
             value={testimonial.rating} 
             readonly 
-            className="flex justify-start"
+            className="flex justify-start scale-90 sm:scale-100"
           />
         </div>
       )}
       
       <p 
-        className="italic text-sm mb-3 leading-relaxed"
+        className="italic text-xs sm:text-sm mb-2 sm:mb-3 leading-relaxed"
         style={{ 
           color: theme === "dark" ? "#e5e7eb" : "#4b5563",
         }}
@@ -43,7 +46,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
       
       <div className="flex flex-col gap-0.5">
         <p 
-          className="font-medium text-sm"
+          className="font-medium text-xs sm:text-sm"
           style={{ 
             color: theme === "dark" ? "#f3f4f6" : "#111827",
           }}

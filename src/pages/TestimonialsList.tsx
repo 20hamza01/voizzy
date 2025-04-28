@@ -7,12 +7,14 @@ import TestimonialFilters from "@/components/dashboard/TestimonialFilters";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import { useTestimonialRealtime } from "@/hooks/useTestimonialRealtime";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const TestimonialsList = () => {
   const { user } = useAuth();
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const isMobile = useIsMobile();
 
   const {
     testimonials,
@@ -38,16 +40,16 @@ const TestimonialsList = () => {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold tracking-tight">Testimonials</h1>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Testimonials</h1>
         </div>
 
         <Card>
-          <CardHeader>
-            <CardTitle>Manage Testimonials</CardTitle>
+          <CardHeader className="py-4 sm:py-6">
+            <CardTitle className="text-lg sm:text-xl">Manage Testimonials</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-2 sm:px-6 py-2 sm:py-4">
             <TestimonialFilters 
               statusFilter={statusFilter} 
               setStatusFilter={setStatusFilter} 

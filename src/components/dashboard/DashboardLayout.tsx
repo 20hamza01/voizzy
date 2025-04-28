@@ -1,8 +1,19 @@
-import React from "react";
+
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { Menu, X } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 
 interface NavItem {
   name: string;
@@ -24,16 +35,41 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const isMobile = useIsMobile();
+  const [isOpen, setIsOpen] = useState(false);
   
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/");
   };
+  
+  // Sidebar navigation component - used on both desktop and mobile
+  const NavigationLinks = ({ onItemClick }: { onItemClick?: () => void }) => (
+    <nav className="flex-1 space-y-1">
+      {navigation.map((item) => {
+        const isActive = location.pathname === item.href;
+        return (
+          <Link
+            key={item.name}
+            to={item.href}
+            className={`${
+              isActive
+                ? "bg-voizzy-light-purple text-voizzy-dark-purple"
+                : "text-gray-600 hover:bg-gray-50"
+            } group flex items-center px-4 py-2 text-sm font-medium rounded-md`}
+            onClick={onItemClick}
+          >
+            {item.name}
+          </Link>
+        );
+      })}
+    </nav>
+  );
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="flex min-h-screen">
-        {/* Sidebar */}
+        {/* Desktop Sidebar */}
         <div className="hidden md:flex md:w-64 md:flex-col">
           <div className="flex flex-col flex-grow pt-5 bg-white overflow-y-auto border-r">
             <div className="flex items-center flex-shrink-0 px-4">
@@ -42,24 +78,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               </Link>
             </div>
             <div className="mt-8 flex-grow flex flex-col">
-              <nav className="flex-1 px-2 space-y-1">
-                {navigation.map((item) => {
-                  const isActive = location.pathname === item.href;
-                  return (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className={`${
-                        isActive
-                          ? "bg-voizzy-light-purple text-voizzy-dark-purple"
-                          : "text-gray-600 hover:bg-gray-50"
-                      } group flex items-center px-4 py-2 text-sm font-medium rounded-md`}
-                    >
-                      {item.name}
-                    </Link>
-                  );
-                })}
-              </nav>
+              <NavigationLinks />
             </div>
             <div className="flex-shrink-0 flex border-t p-4">
               <Button
@@ -73,10 +92,47 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           </div>
         </div>
 
+        {/* Mobile view with top navbar and drawer */}
+        <div className="md:hidden fixed top-0 left-0 right-0 z-10 bg-white border-b p-4 flex justify-between items-center">
+          <Link to="/dashboard" className="text-xl font-bold text-voizzy-purple">
+            Voizzy
+          </Link>
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[240px] sm:w-[240px]">
+              <SheetHeader>
+                <SheetTitle className="text-left">Menu</SheetTitle>
+              </SheetHeader>
+              <div className="flex flex-col h-full">
+                <div className="my-6 flex-grow">
+                  <NavigationLinks onItemClick={() => setIsOpen(false)} />
+                </div>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    handleLogout();
+                    setIsOpen(false);
+                  }}
+                  className="w-full mt-auto"
+                >
+                  Sign Out
+                </Button>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+
         {/* Main content */}
         <div className="flex flex-col flex-1">
           <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none bg-gray-50">
-            <div className="py-6">
+            <div className="py-6 md:py-6">
+              {/* Add padding to top for mobile view to account for the fixed navbar */}
+              <div className="md:hidden h-16"></div>
               <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                 {children}
               </div>

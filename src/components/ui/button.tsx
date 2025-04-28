@@ -1,6 +1,8 @@
+
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 import { cn } from "@/lib/utils"
 
@@ -21,9 +23,9 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
+        sm: "h-8 sm:h-9 rounded-md px-2 sm:px-3",
+        lg: "h-10 sm:h-11 rounded-md px-6 sm:px-8",
+        icon: "h-9 sm:h-10 w-9 sm:w-10",
       },
     },
     defaultVariants: {
@@ -41,10 +43,13 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
+    const isMobile = useIsMobile();
+    const mobileClass = isMobile ? "min-h-[44px] min-w-[44px]" : "";
+    const Comp = asChild ? Slot : "button";
+    
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(buttonVariants({ variant, size, className }), mobileClass)}
         ref={ref}
         {...props}
       />

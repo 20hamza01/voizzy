@@ -9,12 +9,14 @@ import { useTestimonials } from "@/hooks/useTestimonials";
 import { useTestimonialRealtime } from "@/hooks/useTestimonialRealtime";
 import { TestimonialEmbedOptions } from "@/components/dashboard/TestimonialEmbedOptions";
 import { useDashboardStats } from "@/hooks/useDashboardStats";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Dashboard = () => {
   const { user } = useAuth();
   const { testimonials, loading, fetchTestimonials } = useTestimonials(user);
   const { stats, loading: statsLoading } = useDashboardStats(user?.id);
   const [isMounted, setIsMounted] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setIsMounted(true);
@@ -34,18 +36,18 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
-        <div className="flex flex-col space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground">
+      <div className="space-y-4 sm:space-y-6">
+        <div className="flex flex-col space-y-1 sm:space-y-2">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Dashboard</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
             Welcome back! Here's an overview of your testimonials.
           </p>
         </div>
 
-        <div className="grid gap-6">
+        <div className="grid gap-4 sm:gap-6">
           <DashboardStats stats={stats} loading={statsLoading} />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <RecentTestimonials 
               testimonials={testimonials.slice(0, 3)} 
               loading={loading}

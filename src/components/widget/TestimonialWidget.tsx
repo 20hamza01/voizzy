@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Testimonial } from "@/types/testimonial";
 import { TestimonialCard } from "@/components/widget/TestimonialCard";
 import { Loader } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface TestimonialWidgetProps {
   userId: string;
@@ -25,6 +26,7 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
 }) => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const fetchTestimonials = async () => {
@@ -74,7 +76,7 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center p-8 min-h-[200px] bg-background rounded-lg">
+      <div className="flex items-center justify-center p-4 sm:p-8 min-h-[200px] bg-background rounded-lg">
         <div className="flex flex-col items-center gap-3">
           <Loader className="w-6 h-6 animate-spin text-muted-foreground" />
           <span className="text-sm text-muted-foreground">Loading testimonials...</span>
@@ -86,7 +88,7 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
   if (testimonials.length === 0) {
     return (
       <div 
-        className="min-h-[200px] flex items-center justify-center p-6 rounded-lg bg-background"
+        className="min-h-[200px] flex items-center justify-center p-4 sm:p-6 rounded-lg bg-background"
         style={{ 
           color: theme === "dark" ? "#e5e7eb" : "#4b5563",
         }}
@@ -100,9 +102,9 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
 
   return (
     <div className="widget-container bg-background rounded-lg shadow-sm">
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <h3 
-          className="font-medium text-lg mb-6 text-center"
+          className="font-medium text-lg mb-4 sm:mb-6 text-center"
           style={{ 
             color: theme === "dark" ? "#f3f4f6" : "#111827",
           }}
@@ -110,7 +112,7 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
           Wall of love
         </h3>
         
-        <div className="space-y-4 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent pr-2">
+        <div className="space-y-3 sm:space-y-4 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent pr-2">
           {testimonials.map((testimonial) => (
             <TestimonialCard
               key={testimonial.id}
@@ -123,7 +125,7 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
 
         {showBranding && (
           <div 
-            className="text-center mt-6 pt-4 text-xs"
+            className="text-center mt-4 sm:mt-6 pt-3 sm:pt-4 text-xs"
             style={{ 
               color: theme === "dark" ? "#9ca3af" : "#9ca3af",
               borderTop: `1px solid ${theme === "dark" ? "#374151" : "#f3f4f6"}`,
