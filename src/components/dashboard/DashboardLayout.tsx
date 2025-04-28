@@ -104,7 +104,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[240px] sm:w-[240px]">
+            <SheetContent side="left" className="w-[240px] sm:w[240px]">
               <SheetHeader>
                 <SheetTitle className="text-left">Menu</SheetTitle>
               </SheetHeader>
@@ -128,12 +128,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         </div>
 
         {/* Main content */}
-        <div className="flex flex-col flex-1">
+        <div className="flex flex-col flex-1 w-full">
           <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none bg-gray-50">
             <div className="py-6 md:py-6">
               {/* Add padding to top for mobile view to account for the fixed navbar */}
               <div className="md:hidden h-16"></div>
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 w-full">
                 {children}
               </div>
             </div>
