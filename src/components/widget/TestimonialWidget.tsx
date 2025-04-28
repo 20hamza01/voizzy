@@ -74,7 +74,7 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center p-8 min-h-[200px] bg-background border border-border rounded-lg">
+      <div className="flex items-center justify-center p-8 min-h-[200px] bg-background rounded-lg">
         <div className="flex flex-col items-center gap-3">
           <Loader className="w-6 h-6 animate-spin text-muted-foreground" />
           <span className="text-sm text-muted-foreground">Loading testimonials...</span>
@@ -86,7 +86,7 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
   if (testimonials.length === 0) {
     return (
       <div 
-        className="min-h-[200px] flex items-center justify-center p-6 rounded-lg bg-background border border-border"
+        className="min-h-[200px] flex items-center justify-center p-6 rounded-lg bg-background"
         style={{ 
           color: theme === "dark" ? "#e5e7eb" : "#4b5563",
         }}
@@ -99,7 +99,7 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
   }
 
   return (
-    <div className="widget-container bg-background border border-border rounded-lg shadow-sm">
+    <div className="widget-container bg-background rounded-lg shadow-sm">
       <div className="p-6">
         <h3 
           className="font-medium text-lg mb-6 text-center"
@@ -107,7 +107,7 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
             color: theme === "dark" ? "#f3f4f6" : "#111827",
           }}
         >
-          What people are saying
+          Wall of love
         </h3>
         
         <div className="space-y-4 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent pr-2">
