@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import Index from "./pages/Index";
@@ -30,6 +31,7 @@ function App() {
           <Route path="/collect/:userId/success" element={<TestimonialSuccess />} />
           <Route path="/embed/:userId" element={<EmbedWall />} />
           <Route path="/widget/:userId" element={<Widget />} />
+          <Route path="/example-wall" element={<EmbedWall />} />
           <Route
             path="/dashboard"
             element={
