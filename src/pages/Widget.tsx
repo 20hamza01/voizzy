@@ -9,8 +9,8 @@ const Widget = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   
-  // Get widget configuration from URL parameters
-  const limit = Number(searchParams.get("limit") || "3");
+  // Get widget configuration from URL parameters, with hardcoded defaults
+  const limit = Number(searchParams.get("limit") || "10");
   const theme = searchParams.get("theme") || "light";
   
   // Default primary color 
