@@ -36,18 +36,18 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
-      <div className="space-y-4 sm:space-y-6 max-w-full">
-        <div className="flex flex-col space-y-1 sm:space-y-2">
+      <div className="space-y-4 sm:space-y-6 w-full max-w-full box-border">
+        <div className="flex flex-col space-y-1 sm:space-y-2 px-4 sm:px-0">
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Dashboard</h1>
           <p className="text-sm sm:text-base text-muted-foreground">
             Welcome back! Here's an overview of your testimonials.
           </p>
         </div>
 
-        <div className="grid gap-4 sm:gap-6">
+        <div className="grid gap-4 sm:gap-6 w-full box-border px-4 sm:px-0">
           <DashboardStats stats={stats} loading={statsLoading} />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 w-full">
             <RecentTestimonials 
               testimonials={testimonials.slice(0, 3)} 
               loading={loading}

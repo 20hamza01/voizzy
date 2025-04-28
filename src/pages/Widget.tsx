@@ -22,7 +22,7 @@ const Widget = () => {
   if (!userId) return null;
 
   return (
-    <div className="p-2 sm:p-4 w-full mx-auto" style={{ maxWidth: isMobile ? '100%' : '350px' }}>
+    <div className="p-2 sm:p-4 mx-auto w-full box-border overflow-hidden" style={{ maxWidth: isMobile ? '100%' : '350px' }}>
       <TestimonialWidget 
         userId={userId}
         limit={limit}

@@ -17,8 +17,8 @@ const DashboardStats = ({ stats, loading }: DashboardStatsProps) => {
   const { data: planUsage, isLoading: isPlanUsageLoading } = usePlanUsage(user?.id);
 
   return (
-    <div className="grid gap-4 w-full">
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4 w-full box-border">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
         <Card className="w-full">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Testimonials</CardTitle>
@@ -48,7 +48,7 @@ const DashboardStats = ({ stats, loading }: DashboardStatsProps) => {
         </Card>
       </div>
 
-      <div className="p-4 sm:p-6 bg-white rounded-lg shadow-sm">
+      <div className="p-4 sm:p-6 bg-white rounded-lg shadow-sm w-full box-border">
         {isPlanUsageLoading ? (
           <div className="h-[100px] flex items-center justify-center">
             <p className="text-sm text-muted-foreground">Loading usage data...</p>

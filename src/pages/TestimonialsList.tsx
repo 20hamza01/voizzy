@@ -40,12 +40,12 @@ const TestimonialsList = () => {
 
   return (
     <DashboardLayout>
-      <div className="space-y-4 sm:space-y-6">
+      <div className="space-y-4 sm:space-y-6 w-full box-border px-4 sm:px-0">
         <div className="flex items-center justify-between">
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Testimonials</h1>
         </div>
 
-        <Card>
+        <Card className="w-full box-border overflow-hidden">
           <CardHeader className="py-4 sm:py-6">
             <CardTitle className="text-lg sm:text-xl">Manage Testimonials</CardTitle>
           </CardHeader>

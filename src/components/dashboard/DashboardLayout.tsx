@@ -67,8 +67,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="flex min-h-screen">
+    <div className="min-h-screen bg-gray-50 w-full overflow-x-hidden">
+      <div className="flex min-h-screen w-full max-w-full">
         {/* Desktop Sidebar */}
         <div className="hidden md:flex md:w-64 md:flex-col">
           <div className="flex flex-col flex-grow pt-5 bg-white overflow-y-auto border-r">
@@ -128,12 +128,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         </div>
 
         {/* Main content */}
-        <div className="flex flex-col flex-1 w-full">
-          <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none bg-gray-50">
+        <div className="flex flex-col flex-1 w-full overflow-hidden">
+          <main className="flex-1 relative overflow-y-auto overflow-x-hidden focus:outline-none bg-gray-50">
             <div className="py-6 md:py-6">
               {/* Add padding to top for mobile view to account for the fixed navbar */}
               <div className="md:hidden h-16"></div>
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 w-full">
+              <div className="mx-auto w-full box-border overflow-hidden">
                 {children}
               </div>
             </div>
