@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Check, X } from "lucide-react";
+import { Check, X, Trash2 } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import type { Testimonial } from "@/types/testimonial";
 
@@ -26,67 +26,72 @@ export const TestimonialActions: React.FC<TestimonialActionsProps> = ({
       {testimonial.status === "pending" && (
         <>
           <Button
-            size="sm"
+            size="icon"
             variant="outline"
-            className="text-green-600 border-green-600 hover:bg-green-50"
+            className="h-8 w-8 text-green-600 border-green-600 hover:bg-green-50"
             onClick={(e) => {
               e.stopPropagation();
               handleStatusChange(testimonial.id, "approved");
             }}
+            title="Approve"
           >
-            <Check className="h-4 w-4 mr-1" /> Approve
+            <Check className="h-4 w-4" />
           </Button>
           <Button
-            size="sm"
+            size="icon"
             variant="outline"
-            className="text-red-600 border-red-600 hover:bg-red-50"
+            className="h-8 w-8 text-red-600 border-red-600 hover:bg-red-50"
             onClick={(e) => {
               e.stopPropagation();
               handleStatusChange(testimonial.id, "rejected");
             }}
+            title="Reject"
           >
-            <X className="h-4 w-4 mr-1" /> Reject
+            <X className="h-4 w-4" />
           </Button>
         </>
       )}
       
       {testimonial.status === "approved" && (
         <Button
-          size="sm"
+          size="icon"
           variant="outline"
-          className="text-red-600 border-red-600 hover:bg-red-50"
+          className="h-8 w-8 text-red-600 border-red-600 hover:bg-red-50"
           onClick={(e) => {
             e.stopPropagation();
             handleStatusChange(testimonial.id, "rejected");
           }}
+          title="Reject"
         >
-          <X className="h-4 w-4 mr-1" /> Reject
+          <X className="h-4 w-4" />
         </Button>
       )}
 
       {testimonial.status === "rejected" && (
         <Button
-          size="sm"
+          size="icon"
           variant="outline"
-          className="text-green-600 border-green-600 hover:bg-green-50"
+          className="h-8 w-8 text-green-600 border-green-600 hover:bg-green-50"
           onClick={(e) => {
             e.stopPropagation();
             handleStatusChange(testimonial.id, "approved");
           }}
+          title="Approve"
         >
-          <Check className="h-4 w-4 mr-1" /> Approve
+          <Check className="h-4 w-4" />
         </Button>
       )}
 
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button
-            size="sm"
+            size="icon"
             variant="outline"
-            className="text-gray-600 border-gray-600 hover:bg-gray-50"
+            className="h-8 w-8 text-gray-600 border-gray-600 hover:bg-gray-50"
             onClick={(e) => e.stopPropagation()}
+            title="Delete"
           >
-            Delete
+            <Trash2 className="h-4 w-4" />
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent onClick={(e) => e.stopPropagation()}>
