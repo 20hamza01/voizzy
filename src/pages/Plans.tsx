@@ -22,12 +22,12 @@ const Plans = () => {
       price: "0",
       description: "Perfect for trying out Voizzy",
       features: [
-        "Up to 3 testimonials",
+        "Up to 10 testimonials",
         "Basic testimonial wall",
         "Standard form",
         "Email support"
       ],
-      limitations: ["Limited to 3 testimonials"],
+      limitations: ["Limited to 10 testimonials"],
       button: currentPlan === "free" ? "Current Plan" : "Downgrade to Free",
       isPopular: false
     },
@@ -43,7 +43,8 @@ const Plans = () => {
       ],
       limitations: [],
       button: currentPlan === "basic" ? "Current Plan" : "Upgrade to Basic",
-      isPopular: true
+      isPopular: true,
+      isComingSoon: true
     }
   ];
 
@@ -64,6 +65,8 @@ const Plans = () => {
                 key={plan.name}
                 className={`relative rounded-lg border p-6 shadow-sm ${
                   plan.isPopular ? "border-primary" : ""
+                } ${
+                  plan.isComingSoon ? "opacity-70" : ""
                 }`}
               >
                 {plan.isPopular && (
@@ -81,6 +84,14 @@ const Plans = () => {
                     variant="outline"
                   >
                     Current Plan
+                  </Badge>
+                )}
+
+                {plan.isComingSoon && (
+                  <Badge
+                    className="absolute -top-2 left-4 bg-amber-500 text-white"
+                  >
+                    Coming Soon
                   </Badge>
                 )}
 
@@ -129,11 +140,17 @@ const Plans = () => {
                   <Button
                     className="w-full"
                     variant={currentPlan === plan.name.toLowerCase() ? "outline" : "default"}
-                    disabled={currentPlan === plan.name.toLowerCase() || isLoading}
+                    disabled={currentPlan === plan.name.toLowerCase() || isLoading || plan.isComingSoon}
                     onClick={() => upgradePlan(plan.name.toLowerCase())}
                   >
-                    {plan.button}
+                    {plan.isComingSoon ? "Coming Soon" : plan.button}
                   </Button>
+                  
+                  {plan.isComingSoon && (
+                    <p className="text-xs text-center text-muted-foreground mt-2">
+                      This plan will be available soon. Stay tuned!
+                    </p>
+                  )}
                 </div>
               </div>
             ))}

@@ -30,9 +30,9 @@ export const usePlanUsage = (userId: string | undefined) => {
         .eq("user_id", userId);
 
       const currentCount = count || 0;
-      const limit = profile?.plan_type === "free" ? 3 : Infinity;
-      const isNearLimit = profile?.plan_type === "free" && currentCount >= 2;
-      const isAtLimit = profile?.plan_type === "free" && currentCount >= 3;
+      const limit = profile?.plan_type === "free" ? 10 : Infinity;
+      const isNearLimit = profile?.plan_type === "free" && currentCount >= 8;
+      const isAtLimit = profile?.plan_type === "free" && currentCount >= 10;
 
       return {
         currentCount,

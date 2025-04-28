@@ -53,7 +53,7 @@ export const PlanUsageIndicator: React.FC<PlanUsageIndicatorProps> = ({
         <div className="pt-2">
           <Button asChild variant="outline" size="sm" className="w-full">
             <Link to="/dashboard/plans">
-              Upgrade to {isAtLimit ? "continue collecting" : "collect more"} testimonials
+              Premium plans coming soon! Currently limited to 10 testimonials.
             </Link>
           </Button>
         </div>
