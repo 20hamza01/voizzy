@@ -86,13 +86,9 @@ const Navbar = () => {
         
         {/* Desktop Navigation */}
         <div className="hidden lg:flex lg:gap-x-12">
-          <Link to="/features" className="text-sm font-semibold leading-6 text-gray-900">
-            Features
-          </Link>
           
-          <Link to="/example-wall" className="text-sm font-semibold leading-6 text-gray-900">
-            Example Wall
-          </Link>
+          
+          
         </div>
         
         {/* Desktop Auth Buttons */}
