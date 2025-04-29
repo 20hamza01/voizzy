@@ -5,8 +5,7 @@ import {
   PaletteIcon,
   MessageSquare,
   Share2,
-  Workflow,
-  Zap
+  Workflow
 } from "lucide-react";
 
 const features = [
@@ -34,11 +33,6 @@ const features = [
     name: "Smart workflows",
     description: "Automatically notify team members and process new testimonials with custom workflows.",
     icon: Workflow
-  },
-  {
-    name: "Seamless integration",
-    description: "Connect with your favorite tools through our Zapier integration and API.",
-    icon: Zap
   }
 ];
 
@@ -96,10 +90,6 @@ const Features = () => {
                         {index === 4 && i === 0 && "Email notifications"}
                         {index === 4 && i === 1 && "Approval workflows"}
                         {index === 4 && i === 2 && "Team collaboration"}
-                        
-                        {index === 5 && i === 0 && "Zapier integration"}
-                        {index === 5 && i === 1 && "Webhook support"}
-                        {index === 5 && i === 2 && "API access"}
                       </span>
                     </li>
                   ))}
