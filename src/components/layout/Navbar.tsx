@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -6,21 +5,18 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { Menu, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 const Navbar = () => {
-  const { user, signOut } = useAuth();
+  const {
+    user,
+    signOut
+  } = useAuth();
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
-
   const handleLogout = async () => {
     try {
       await signOut();
@@ -31,13 +27,11 @@ const Navbar = () => {
       toast({
         title: "Error signing out",
         description: "Please try again. If the problem persists, try refreshing the page.",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
-
-  const MobileMenu = () => (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+  const MobileMenu = () => <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="md:hidden">
           <Menu className="h-5 w-5" />
@@ -49,74 +43,40 @@ const Navbar = () => {
           <SheetTitle className="text-left text-sky-500">Voizzy</SheetTitle>
         </SheetHeader>
         <div className="flex flex-col gap-4 py-6">
-          <Link 
-            to="/features" 
-            className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md"
-            onClick={() => setIsOpen(false)}
-          >
+          <Link to="/features" className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md" onClick={() => setIsOpen(false)}>
             Features
           </Link>
-          <Link 
-            to="/pricing" 
-            className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md"
-            onClick={() => setIsOpen(false)}
-          >
+          <Link to="/pricing" className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md" onClick={() => setIsOpen(false)}>
             Pricing
           </Link>
-          <Link 
-            to="/example-wall" 
-            className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md"
-            onClick={() => setIsOpen(false)}
-          >
+          <Link to="/example-wall" className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md" onClick={() => setIsOpen(false)}>
             Example Wall
           </Link>
           
           <div className="h-[1px] bg-border my-2"></div>
           
-          {user ? (
-            <>
-              <Link 
-                to="/dashboard" 
-                className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md"
-                onClick={() => setIsOpen(false)}
-              >
+          {user ? <>
+              <Link to="/dashboard" className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md" onClick={() => setIsOpen(false)}>
                 Dashboard
               </Link>
-              <Button 
-                onClick={() => {
-                  handleLogout();
-                  setIsOpen(false);
-                }} 
-                className="w-full justify-start mt-2"
-              >
+              <Button onClick={() => {
+            handleLogout();
+            setIsOpen(false);
+          }} className="w-full justify-start mt-2">
                 Sign out
               </Button>
-            </>
-          ) : (
-            <>
-              <Link 
-                to="/login" 
-                className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md"
-                onClick={() => setIsOpen(false)}
-              >
+            </> : <>
+              <Link to="/login" className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md" onClick={() => setIsOpen(false)}>
                 Sign in
               </Link>
-              <Link 
-                to="/register" 
-                className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md"
-                onClick={() => setIsOpen(false)}
-              >
+              <Link to="/register" className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md" onClick={() => setIsOpen(false)}>
                 <Button className="w-full">Sign up</Button>
               </Link>
-            </>
-          )}
+            </>}
         </div>
       </SheetContent>
-    </Sheet>
-  );
-
-  return (
-    <header className="bg-white">
+    </Sheet>;
+  return <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 sm:p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
           <Link to="/" className="-m-1.5 p-1.5 text-2xl font-bold text-sky-500">
@@ -129,9 +89,7 @@ const Navbar = () => {
           <Link to="/features" className="text-sm font-semibold leading-6 text-gray-900">
             Features
           </Link>
-          <Link to="/pricing" className="text-sm font-semibold leading-6 text-gray-900">
-            Pricing
-          </Link>
+          
           <Link to="/example-wall" className="text-sm font-semibold leading-6 text-gray-900">
             Example Wall
           </Link>
@@ -139,30 +97,24 @@ const Navbar = () => {
         
         {/* Desktop Auth Buttons */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4">
-          {user ? (
-            <>
+          {user ? <>
               <Button asChild variant="ghost">
                 <Link to="/dashboard">Dashboard</Link>
               </Button>
               <Button onClick={handleLogout}>Sign out</Button>
-            </>
-          ) : (
-            <>
+            </> : <>
               <Button asChild variant="ghost">
                 <Link to="/login">Sign in</Link>
               </Button>
               <Button asChild>
                 <Link to="/register">Sign up</Link>
               </Button>
-            </>
-          )}
+            </>}
         </div>
         
         {/* Mobile Menu */}
         <MobileMenu />
       </nav>
-    </header>
-  );
+    </header>;
 };
-
 export default Navbar;
