@@ -9,6 +9,7 @@ import Stats from "@/components/landing/Stats";
 import FAQ from "@/components/landing/FAQ";
 import CallToAction from "@/components/landing/CallToAction";
 import Script from "@/components/landing/Script";
+import WidgetExample from "@/components/landing/WidgetExample";
 
 const Index = () => {
   return (
@@ -17,6 +18,7 @@ const Index = () => {
       <Hero />
       <Stats />
       <Features />
+      <WidgetExample />
       <HowItWorks />
       <Testimonials />
       <FAQ />

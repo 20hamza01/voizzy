@@ -44,10 +44,10 @@ const features = [
 
 const Features = () => {
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <div id="features" className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
-          <span className="inline-block text-base font-semibold leading-7 text-primary">Powerful features</span>
+          <span className="inline-block text-base font-semibold leading-7 text-sky-600">Powerful features</span>
           <h2 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Everything you need to collect powerful testimonials
           </h2>
@@ -61,8 +61,8 @@ const Features = () => {
             {features.map((feature, index) => (
               <div key={feature.name} className="feature-card relative">
                 <div className="flex items-center gap-x-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                    <feature.icon className="h-5 w-5 text-primary" aria-hidden="true" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sky-100">
+                    <feature.icon className="h-5 w-5 text-sky-600" aria-hidden="true" />
                   </div>
                   <h3 className="text-lg font-semibold leading-7 text-gray-900">
                     {feature.name}
@@ -75,7 +75,7 @@ const Features = () => {
                 <ul className="mt-6 space-y-2 text-sm">
                   {[1, 2, 3].map((_, i) => (
                     <li key={i} className="flex items-center text-gray-500">
-                      <Check className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
+                      <Check className="h-4 w-4 text-sky-500 mr-2 flex-shrink-0" />
                       <span>
                         {index === 0 && i === 0 && "No coding required"}
                         {index === 0 && i === 1 && "Mobile-friendly forms"}

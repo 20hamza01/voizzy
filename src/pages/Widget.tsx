@@ -15,8 +15,8 @@ const Widget = () => {
   const limit = Number(searchParams.get("limit") || "10");
   const theme = searchParams.get("theme") || "light";
   
-  // Default primary color changed to blue
-  const primaryColor = "#0EA5E9"; // Changed to blue
+  // Primary color set to sky blue
+  const primaryColor = "#0EA5E9";
   const showBranding = true; // Default to showing branding
 
   if (!userId) return null;

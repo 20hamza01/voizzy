@@ -18,6 +18,8 @@ import Plans from "./pages/Plans";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Settings from "./pages/Settings";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
           <Route path="/embed/:userId" element={<EmbedWall />} />
           <Route path="/widget/:userId" element={<Widget />} />
           <Route path="/example-wall" element={<EmbedWall />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
           <Route
             path="/dashboard"
             element={

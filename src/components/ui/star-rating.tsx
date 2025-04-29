@@ -15,7 +15,7 @@ export const StarRating: React.FC<StarRatingProps> = ({
   onChange,
   className,
   readonly = false,
-  primaryColor = "#F59E0B", // Changed to amber/yellow color
+  primaryColor = "#F59E0B", // Amber/yellow color for stars
 }) => {
   return (
     <div className={cn("flex items-center gap-1", className)}>

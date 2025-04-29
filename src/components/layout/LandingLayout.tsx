@@ -2,6 +2,7 @@
 import React from "react";
 import Navbar from "./Navbar";
 import Footer from "../landing/Footer";
+import "../../../src/styles/landing.css";
 
 interface LandingLayoutProps {
   children: React.ReactNode;
