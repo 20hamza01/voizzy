@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 @tailwind base;
@@ -15,7 +16,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 199 89% 64%;
+    --primary: 199 89% 48%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 199 89% 96%;
@@ -32,7 +33,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 262 89% 75%;
+    --ring: 199 89% 48%;
 
     --radius: 0.75rem;
 
@@ -56,7 +57,7 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 262 89% 75%;
+    --primary: 199 89% 48%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -73,7 +74,7 @@
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 262 89% 75%;
+    --ring: 199 89% 48%;
   }
 }
 
@@ -97,9 +98,53 @@
 }
 
 .testimonial-form-gradient {
-  background: linear-gradient(135deg, #d6bcfa 0%, #9b87f5 100%);
+  background: linear-gradient(135deg, #BAE6FD 0%, #0EA5E9 100%);
 }
 
 .wall-of-love-gradient {
-  background: linear-gradient(135deg, #fef7cd 0%, #fde1d3 50%, #d3e4fd 100%);
+  background: linear-gradient(135deg, #e7f5fe 0%, #bae6fd 50%, #7dd3fc 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.wall-of-love-gradient::before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  z-index: 0;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+  animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.testimonial-card-animated {
+  transition: all 0.3s ease;
+  transform: translateY(0);
+}
+
+.testimonial-card-animated:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.2);
+}
+
+.shimmer-effect {
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 0.4) 50%, 
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -100% 0; }
+  100% { background-position: 100% 0; }
 }

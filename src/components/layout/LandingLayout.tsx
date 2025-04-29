@@ -9,7 +9,7 @@ interface LandingLayoutProps {
 
 const LandingLayout: React.FC<LandingLayoutProps> = ({ children }) => {
   return (
-    <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
+    <div className="flex flex-col min-h-screen w-full overflow-x-hidden bg-white">
       <Navbar />
       <main className="flex-grow w-full overflow-x-hidden">
         {children}

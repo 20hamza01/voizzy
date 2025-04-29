@@ -39,7 +39,7 @@
   message.style.position = 'fixed';
   message.style.bottom = '70px';
   message.style.right = '70px';
-  message.style.backgroundColor = '#7E69AB';  // Soft purple from color palette
+  message.style.backgroundColor = '#0EA5E9';  // Changed to blue
   message.style.color = 'white';
   message.style.padding = '10px 16px';
   message.style.borderRadius = '20px';
@@ -110,7 +110,7 @@
   button.style.width = '48px';
   button.style.height = '48px';
   button.style.borderRadius = '50%';
-  button.style.backgroundColor = '#9b87f5';
+  button.style.backgroundColor = '#0EA5E9'; // Changed to blue
   button.style.color = '#ffffff';
   button.style.border = 'none';
   button.style.cursor = 'pointer';

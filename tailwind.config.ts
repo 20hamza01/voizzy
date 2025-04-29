@@ -54,9 +54,9 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				voizzy: {
-					purple: '#9b87f5',
-					'light-purple': '#D6BCFA',
-					'dark-purple': '#7E69AB',
+					blue: '#0EA5E9',
+					'light-blue': '#BAE6FD',
+					'dark-blue': '#0369A1',
 					'accent-yellow': '#FEF7CD',
 					'accent-peach': '#FDE1D3',
 					'accent-blue': '#D3E4FD'
@@ -97,12 +97,28 @@ export default {
 				'pulse-slow': {
 					'0%, 100%': { opacity: '1' },
 					'50%': { opacity: '0.5' },
+				},
+				'float-up': {
+					'0%': { 
+						transform: 'translateY(20px)',
+						opacity: '0'
+					},
+					'100%': { 
+						transform: 'translateY(0)',
+						opacity: '1'
+					}
+				},
+				'shimmer': {
+					'0%': { backgroundPosition: '-200% 0' },
+					'100%': { backgroundPosition: '200% 0' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'pulse-slow': 'pulse-slow 3s infinite'
+				'pulse-slow': 'pulse-slow 3s infinite',
+				'float-up': 'float-up 0.6s ease-out forwards',
+				'shimmer': 'shimmer 3s infinite linear'
 			}
 		}
 	},

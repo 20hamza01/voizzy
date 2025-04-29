@@ -27,6 +27,7 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
   const isMobile = useIsMobile();
+  const defaultColor = "#0EA5E9"; // Changed to blue
 
   useEffect(() => {
     const fetchTestimonials = async () => {
@@ -78,7 +79,7 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
     return (
       <div className="flex items-center justify-center p-4 sm:p-8 min-h-[200px] bg-background rounded-lg">
         <div className="flex flex-col items-center gap-3">
-          <Loader className="w-6 h-6 animate-spin text-muted-foreground" />
+          <Loader className="w-6 h-6 animate-spin text-sky-500" />
           <span className="text-sm text-muted-foreground">Loading testimonials...</span>
         </div>
       </div>
@@ -104,21 +105,21 @@ export const TestimonialWidget: React.FC<TestimonialWidgetProps> = ({
     <div className="widget-container bg-background rounded-lg shadow-sm">
       <div className="p-4 sm:p-6">
         <h3 
-          className="font-medium text-lg mb-4 sm:mb-6 text-center"
+          className="font-medium text-lg mb-4 sm:mb-6 text-center text-sky-500"
           style={{ 
-            color: theme === "dark" ? "#f3f4f6" : "#111827",
+            color: theme === "dark" ? "#7dd3fc" : "#0ea5e9",
           }}
         >
           Wall of love
         </h3>
         
         <div className="space-y-3 sm:space-y-4 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent pr-2">
-          {testimonials.map((testimonial) => (
+          {testimonials.map((testimonial, index) => (
             <TestimonialCard
               key={testimonial.id}
               testimonial={testimonial}
               theme={theme}
-              primaryColor={primaryColor}
+              primaryColor={primaryColor || defaultColor}
             />
           ))}
         </div>

@@ -38,7 +38,7 @@ const StarRating = ({ rating }: { rating: number }) => {
       {[...Array(5)].map((_, i) => (
         <StarIcon
           key={i}
-          className={`h-4 w-4 ${i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+          className={`h-4 w-4 ${i < rating ? "text-amber-400 fill-amber-400" : "text-gray-300"}`}
         />
       ))}
     </div>
@@ -47,10 +47,10 @@ const StarRating = ({ rating }: { rating: number }) => {
 
 const Testimonials = () => {
   return (
-    <section className="py-24 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-base font-semibold leading-7 text-primary">Trusted by businesses</h2>
+    <section className="py-24 wall-of-love-gradient relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        <div className="text-center mb-16 animate-float-up">
+          <h2 className="text-base font-semibold leading-7 text-sky-600">Trusted by businesses</h2>
           <h3 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Don't take our word for it
           </h3>
@@ -61,11 +61,15 @@ const Testimonials = () => {
 
         <div className="mt-12 grid gap-8 md:grid-cols-3">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="testimonial-card border-0 h-full">
+            <Card 
+              key={index} 
+              className="testimonial-card-animated border-0 h-full animate-float-up"
+              style={{ animationDelay: `${index * 0.2}s` }}
+            >
               <CardContent className="p-6 flex flex-col h-full">
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex items-center">
-                    <Avatar className="h-12 w-12 border-2 border-primary/10">
+                    <Avatar className="h-12 w-12 border-2 border-sky-500/10">
                       <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
                       <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
                     </Avatar>
@@ -74,7 +78,7 @@ const Testimonials = () => {
                       <p className="text-sm text-gray-500">{testimonial.role}, {testimonial.company}</p>
                     </div>
                   </div>
-                  <Badge variant="outline" className="text-primary border-primary/20 bg-primary/5">
+                  <Badge variant="outline" className="text-sky-600 border-sky-200 bg-sky-50">
                     Customer
                   </Badge>
                 </div>
@@ -89,6 +93,10 @@ const Testimonials = () => {
           ))}
         </div>
       </div>
+
+      {/* Add animated background elements */}
+      <div className="absolute w-96 h-96 bg-sky-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 -bottom-32 -left-32 animate-pulse-slow"></div>
+      <div className="absolute w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 -top-32 right-20 animate-pulse-slow" style={{ animationDelay: '1.5s' }}></div>
     </section>
   );
 };

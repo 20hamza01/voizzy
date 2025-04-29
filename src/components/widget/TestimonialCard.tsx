@@ -16,13 +16,15 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
   primaryColor,
 }) => {
   const isMobile = useIsMobile();
+  const defaultColor = "#0EA5E9"; // Changed to blue
   
   return (
     <div 
-      className="p-3 sm:p-4 rounded-lg transition-colors"
+      className="p-3 sm:p-4 rounded-lg transition-colors animate-float-up testimonial-card-animated"
       style={{ 
         backgroundColor: theme === "dark" ? "#1f2937" : "#f9fafb",
-        borderLeft: `3px solid ${primaryColor || "#9b87f5"}`,
+        borderLeft: `3px solid ${primaryColor || defaultColor}`,
+        animationDelay: `${Math.random() * 0.5}s`, // Staggered animation
       }}
     >
       {testimonial.rating && (

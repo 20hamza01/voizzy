@@ -15,7 +15,7 @@ export const WidgetToggleButton: React.FC<WidgetToggleButtonProps> = ({
   primaryColor,
   theme,
 }) => {
-  const buttonColor = primaryColor || "#9b87f5";
+  const buttonColor = primaryColor || "#0EA5E9"; // Changed to blue
   const textColor = theme === "dark" ? "#ffffff" : "#ffffff";
   
   return (

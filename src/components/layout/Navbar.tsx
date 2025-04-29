@@ -46,7 +46,7 @@ const Navbar = () => {
       </SheetTrigger>
       <SheetContent side="right" className="w-[80%] sm:w-[300px]">
         <SheetHeader>
-          <SheetTitle className="text-left">Voizzy</SheetTitle>
+          <SheetTitle className="text-left text-sky-500">Voizzy</SheetTitle>
         </SheetHeader>
         <div className="flex flex-col gap-4 py-6">
           <Link 
@@ -119,7 +119,7 @@ const Navbar = () => {
     <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 sm:p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
-          <Link to="/" className="-m-1.5 p-1.5 text-2xl font-bold text-voizzy-purple">
+          <Link to="/" className="-m-1.5 p-1.5 text-2xl font-bold text-sky-500">
             Voizzy
           </Link>
         </div>

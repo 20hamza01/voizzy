@@ -26,9 +26,10 @@ const TestimonialForm = () => {
 
   return (
     <div 
-      className="min-h-screen bg-gray-50 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+      className="min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+      style={{background: "linear-gradient(135deg, #e7f5fe 0%, #bae6fd 100%)"}}
     >
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow">
+      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg transition-all duration-500 hover:shadow-xl">
         <div className="text-center">
           <h2 className="mt-2 text-3xl font-extrabold text-gray-900">Share Your Experience</h2>
           <p className="mt-2 text-sm text-gray-600">
@@ -48,7 +49,7 @@ const TestimonialForm = () => {
             
             <Button 
               type="submit" 
-              className="w-full"
+              className="w-full bg-sky-500 hover:bg-sky-600"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
@@ -64,7 +65,7 @@ const TestimonialForm = () => {
         </Form>
         
         <div className="mt-4 text-center">
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-sky-500">
             Powered by Voizzy • The testimonial collection platform
           </p>
         </div>

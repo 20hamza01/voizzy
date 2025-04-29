@@ -15,7 +15,7 @@ export const StarRating: React.FC<StarRatingProps> = ({
   onChange,
   className,
   readonly = false,
-  primaryColor = "#9b87f5", // Default Voizzy purple
+  primaryColor = "#F59E0B", // Changed to amber/yellow color
 }) => {
   return (
     <div className={cn("flex items-center gap-1", className)}>
@@ -26,10 +26,9 @@ export const StarRating: React.FC<StarRatingProps> = ({
           onClick={() => !readonly && onChange && onChange(rating)}
           className={cn(
             "text-2xl focus:outline-none transition-colors",
-            rating <= value ? "text-current" : "text-gray-300",
+            rating <= value ? "text-amber-400" : "text-gray-300",
             readonly ? "cursor-default" : "cursor-pointer"
           )}
-          style={{ color: rating <= value ? primaryColor : undefined }}
           disabled={readonly}
         >
           ★

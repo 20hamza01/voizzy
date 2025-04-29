@@ -4,16 +4,29 @@ import type { Testimonial } from "@/types/testimonial";
 import { useToast } from "@/hooks/use-toast";
 import { useParams, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { StarRating } from "@/components/ui/star-rating";
 
-const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
+const TestimonialCard = ({ testimonial, index }: { testimonial: Testimonial; index: number }) => {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
-      <p className="text-gray-700 italic mb-4">"{testimonial.content}"</p>
-      <div className="flex items-center">
+    <div 
+      className={`bg-white p-6 rounded-lg shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 testimonial-card-animated`}
+      style={{ animationDelay: `${index * 0.15}s` }}
+    >
+      {testimonial.rating && (
+        <div className="mb-3">
+          <StarRating value={testimonial.rating} readonly />
+        </div>
+      )}
+      <div className="relative">
+        <div className="absolute -left-3 -top-3 text-4xl opacity-20 text-sky-300">"</div>
+        <p className="text-gray-700 italic mb-4 relative z-10">{testimonial.content}</p>
+        <div className="absolute -right-3 -bottom-3 text-4xl opacity-20 text-sky-300">"</div>
+      </div>
+      <div className="flex items-center mt-6 pt-4 border-t border-gray-100">
         <div>
-          <p className="font-semibold">{testimonial.client_name}</p>
+          <p className="font-semibold text-gray-900">{testimonial.client_name}</p>
           {testimonial.client_role && (
-            <p className="text-sm text-gray-500">{testimonial.client_role}</p>
+            <p className="text-sm text-sky-600">{testimonial.client_role}</p>
           )}
         </div>
       </div>
@@ -76,14 +89,14 @@ const EmbedWall = () => {
         return "flex flex-col space-y-4";
       case "grid":
       default:
-        return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4";
+        return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6";
     }
   };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-48">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-sky-500"></div>
       </div>
     );
   }
@@ -97,13 +110,13 @@ const EmbedWall = () => {
   }
 
   return (
-    <div className="p-4 bg-gray-50 rounded-md">
-      <div className={getLayoutClass()}>
-        {testimonials.map((testimonial) => (
-          <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+    <div className="p-6 wall-of-love-gradient rounded-xl shadow-md">
+      <div className={`${getLayoutClass()} relative z-10`}>
+        {testimonials.map((testimonial, index) => (
+          <TestimonialCard key={testimonial.id} testimonial={testimonial} index={index} />
         ))}
       </div>
-      <div className="text-center mt-4 text-xs text-gray-400">
+      <div className="text-center mt-6 text-xs text-sky-600 font-medium">
         Powered by Voizzy
       </div>
     </div>

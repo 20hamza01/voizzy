@@ -54,7 +54,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             to={item.href}
             className={`${
               isActive
-                ? "bg-voizzy-light-purple text-voizzy-dark-purple"
+                ? "bg-sky-100 text-sky-700"
                 : "text-gray-600 hover:bg-gray-50"
             } group flex items-center px-4 py-2 text-sm font-medium rounded-md`}
             onClick={onItemClick}
@@ -73,7 +73,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         <div className="hidden md:flex md:w-64 md:flex-col">
           <div className="flex flex-col flex-grow pt-5 bg-white overflow-y-auto border-r">
             <div className="flex items-center flex-shrink-0 px-4">
-              <Link to="/dashboard" className="text-xl font-bold text-voizzy-purple">
+              <Link to="/dashboard" className="text-xl font-bold text-sky-500">
                 Voizzy
               </Link>
             </div>
@@ -94,7 +94,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 
         {/* Mobile view with top navbar and drawer */}
         <div className="md:hidden fixed top-0 left-0 right-0 z-10 bg-white border-b p-4 flex justify-between items-center">
-          <Link to="/dashboard" className="text-xl font-bold text-voizzy-purple">
+          <Link to="/dashboard" className="text-xl font-bold text-sky-500">
             Voizzy
           </Link>
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
