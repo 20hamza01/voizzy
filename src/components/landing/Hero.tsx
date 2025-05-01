@@ -1,9 +1,7 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
-
 const Hero = () => {
   return <div className="relative hero-gradient overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 md:py-40 lg:px-8 relative z-10">
@@ -14,9 +12,7 @@ const Hero = () => {
           <h1 className="text-5xl sm:text-6xl font-bold tracking-tight text-gray-900 sm:leading-tight float-up-animation">
             Transform <span className="text-primary">customer stories</span> into your most powerful sales tool
           </h1>
-          <p className="mx-auto max-w-2xl text-xl leading-relaxed text-gray-600 float-up-animation float-up-delay-1">
-            Collect, manage, and showcase authentic testimonials that build trust and boost conversions. Text, audio, or video — all with one simple platform.
-          </p>
+          <p className="mx-auto max-w-2xl text-xl leading-relaxed text-gray-600 float-up-animation float-up-delay-1">Collect, manage, and showcase authentic testimonials that build trust and boost conversions with one simple platform.</p>
           
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-6 float-up-animation float-up-delay-2">
             <Button asChild size="lg" className="text-lg px-8 py-6 cta-button bg-primary hover:bg-primary/90">
@@ -43,5 +39,4 @@ const Hero = () => {
       <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-gradient-to-tr from-primary/5 to-transparent blur-3xl"></div>
     </div>;
 };
-
 export default Hero;
