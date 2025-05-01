@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -23,17 +24,11 @@ const Hero = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6">
-              <Link to="/example-wall">See examples</Link>
-            </Button>
           </div>
           
           <div className="mt-8 flex items-center justify-center gap-x-6 gap-y-3 flex-wrap text-sm text-gray-600 float-up-animation float-up-delay-3">
             <div className="flex items-center">
               <Check className="h-4 w-4 text-primary mr-2" /> No credit card required
-            </div>
-            <div className="flex items-center">
-              <Check className="h-4 w-4 text-primary mr-2" /> 14-day free trial
             </div>
             <div className="flex items-center">
               <Check className="h-4 w-4 text-primary mr-2" /> Cancel anytime

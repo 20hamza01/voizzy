@@ -119,8 +119,8 @@ const WidgetExample = () => {
                   desc: "Show only your best testimonials to maximize impact and conversions."
                 },
                 {
-                  title: "Multiple Display Options",
-                  desc: "Choose between floating widget, embedded wall, or inline testimonials to fit your website design."
+                  title: "Simple Integration",
+                  desc: "Easy to add to your website with a simple script - no technical expertise required."
                 }
               ].map((item, i) => (
                 <div key={i} className="flex gap-4 items-start">

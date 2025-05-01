@@ -29,15 +29,9 @@ const CallToAction = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button asChild variant="outline" className="w-full sm:w-auto text-white border-white hover:bg-white/10 hover:text-white">
-              <Link to="/example-wall">View example wall</Link>
-            </Button>
           </div>
           
           <div className="mt-8 flex items-center justify-center gap-x-6 gap-y-3 flex-wrap text-sm text-white/80">
-            <div className="flex items-center">
-              <Check className="h-4 w-4 text-white mr-2" /> 14-day free trial
-            </div>
             <div className="flex items-center">
               <Check className="h-4 w-4 text-white mr-2" /> No credit card required
             </div>
