@@ -5,34 +5,28 @@ import {
   PaletteIcon,
   MessageSquare,
   Share2,
-  Workflow
 } from "lucide-react";
 
 const features = [
   {
     name: "Easy form creation",
-    description: "Create beautiful testimonial forms in minutes with our intuitive drag-and-drop builder.",
+    description: "Create beautiful testimonial forms in minutes with our intuitive builder.",
     icon: PaletteIcon
   },
   {
-    name: "Multiple formats",
-    description: "Collect feedback in text, audio, or video format - whatever suits your clients best.",
+    name: "Text testimonials",
+    description: "Collect feedback in text format from your satisfied clients.",
     icon: MessageSquare
   },
   {
-    name: "Custom branding",
-    description: "Match your forms and testimonial wall to your brand's unique look and feel.",
+    name: "Simple branding",
+    description: "Match your forms and testimonial wall to your company's style.",
     icon: PaletteIcon
   },
   {
     name: "One-click sharing",
-    description: "Share your testimonial form via email, social media, or embed it directly on your site.",
+    description: "Share your testimonial form via email or embed it directly on your site.",
     icon: Share2
-  },
-  {
-    name: "Smart workflows",
-    description: "Automatically notify team members and process new testimonials with custom workflows.",
-    icon: Workflow
   }
 ];
 
@@ -51,7 +45,7 @@ const Features = () => {
         </div>
         
         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-          <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-2">
             {features.map((feature, index) => (
               <div key={feature.name} className="feature-card relative">
                 <div className="flex items-center gap-x-3">
@@ -76,20 +70,16 @@ const Features = () => {
                         {index === 0 && i === 2 && "Easy customization"}
                         
                         {index === 1 && i === 0 && "Text testimonials"}
-                        {index === 1 && i === 1 && "Audio recordings"}
-                        {index === 1 && i === 2 && "Video testimonials"}
+                        {index === 1 && i === 1 && "Written feedback"}
+                        {index === 1 && i === 2 && "Star ratings"}
                         
-                        {index === 2 && i === 0 && "Custom colors"}
-                        {index === 2 && i === 1 && "Upload your logo"}
-                        {index === 2 && i === 2 && "Custom fonts"}
+                        {index === 2 && i === 0 && "Basic styling options"}
+                        {index === 2 && i === 1 && "Professional appearance"}
+                        {index === 2 && i === 2 && "Consistent look and feel"}
                         
                         {index === 3 && i === 0 && "Direct link sharing"}
-                        {index === 3 && i === 1 && "Social media integration"}
+                        {index === 3 && i === 1 && "Email sharing"}
                         {index === 3 && i === 2 && "Embed code generation"}
-                        
-                        {index === 4 && i === 0 && "Email notifications"}
-                        {index === 4 && i === 1 && "Approval workflows"}
-                        {index === 4 && i === 2 && "Team collaboration"}
                       </span>
                     </li>
                   ))}

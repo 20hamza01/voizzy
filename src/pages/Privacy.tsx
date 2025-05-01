@@ -15,69 +15,85 @@ const Privacy = () => {
           </div>
 
           <div className="prose prose-sky max-w-none">
-            <h2>Introduction</h2>
-            <p>
-              Voizzy ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our testimonial collection and showcase platform.
-            </p>
+            <section className="mb-8">
+              <h2 className="text-xl font-bold mb-4">1. Introduction</h2>
+              <p className="mb-4">
+                Voizzy ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our testimonial collection and showcase platform.
+              </p>
+            </section>
 
-            <h2>Information We Collect</h2>
-            <p>We collect information that you provide directly to us, including:</p>
-            <ul>
-              <li>Account information (name, email address, password)</li>
-              <li>Profile information (company name, website URL)</li>
-              <li>Payment information</li>
-              <li>Testimonials and feedback collected through our platform</li>
-              <li>Communications you send to us</li>
-            </ul>
+            <section className="mb-8">
+              <h2 className="text-xl font-bold mb-4">2. Information We Collect</h2>
+              <p className="mb-2">We collect information that you provide directly to us, including:</p>
+              <ul className="list-disc pl-6 mb-4 space-y-2">
+                <li>Account information (name, email address, password)</li>
+                <li>Profile information (company name, website URL)</li>
+                <li>Payment information</li>
+                <li>Testimonials and feedback collected through our platform</li>
+                <li>Communications you send to us</li>
+              </ul>
+            </section>
 
-            <h2>How We Use Your Information</h2>
-            <p>We may use the information we collect for various purposes, including to:</p>
-            <ul>
-              <li>Provide, maintain, and improve our services</li>
-              <li>Process transactions and send related information</li>
-              <li>Send administrative messages, updates, and security alerts</li>
-              <li>Respond to your comments, questions, and requests</li>
-              <li>Monitor and analyze usage patterns and trends</li>
-            </ul>
+            <section className="mb-8">
+              <h2 className="text-xl font-bold mb-4">3. How We Use Your Information</h2>
+              <p className="mb-2">We may use the information we collect for various purposes, including to:</p>
+              <ul className="list-disc pl-6 mb-4 space-y-2">
+                <li>Provide, maintain, and improve our services</li>
+                <li>Process transactions and send related information</li>
+                <li>Send administrative messages, updates, and security alerts</li>
+                <li>Respond to your comments, questions, and requests</li>
+                <li>Monitor and analyze usage patterns and trends</li>
+              </ul>
+            </section>
 
-            <h2>Sharing of Information</h2>
-            <p>We may share your information with:</p>
-            <ul>
-              <li>Service providers who perform services on our behalf</li>
-              <li>Business partners with your consent</li>
-              <li>In response to legal process or when required by law</li>
-              <li>In connection with a merger, sale, or acquisition</li>
-            </ul>
+            <section className="mb-8">
+              <h2 className="text-xl font-bold mb-4">4. Sharing of Information</h2>
+              <p className="mb-2">We may share your information with:</p>
+              <ul className="list-disc pl-6 mb-4 space-y-2">
+                <li>Service providers who perform services on our behalf</li>
+                <li>Business partners with your consent</li>
+                <li>In response to legal process or when required by law</li>
+                <li>In connection with a merger, sale, or acquisition</li>
+              </ul>
+            </section>
 
-            <h2>Data Security</h2>
-            <p>
-              We implement appropriate technical and organizational measures to protect the security of your personal information. However, no method of transmission over the Internet or electronic storage is 100% secure, so we cannot guarantee absolute security.
-            </p>
+            <section className="mb-8">
+              <h2 className="text-xl font-bold mb-4">5. Data Security</h2>
+              <p className="mb-4">
+                We implement appropriate technical and organizational measures to protect the security of your personal information. However, no method of transmission over the Internet or electronic storage is 100% secure, so we cannot guarantee absolute security.
+              </p>
+            </section>
 
-            <h2>Your Rights</h2>
-            <p>Depending on your location, you may have certain rights regarding your personal information, including:</p>
-            <ul>
-              <li>Access to your personal information</li>
-              <li>Correction of inaccurate information</li>
-              <li>Deletion of your information</li>
-              <li>Restriction of processing</li>
-              <li>Data portability</li>
-              <li>Object to processing</li>
-            </ul>
+            <section className="mb-8">
+              <h2 className="text-xl font-bold mb-4">6. Your Rights</h2>
+              <p className="mb-2">Depending on your location, you may have certain rights regarding your personal information, including:</p>
+              <ul className="list-disc pl-6 mb-4 space-y-2">
+                <li>Access to your personal information</li>
+                <li>Correction of inaccurate information</li>
+                <li>Deletion of your information</li>
+                <li>Restriction of processing</li>
+                <li>Data portability</li>
+                <li>Object to processing</li>
+              </ul>
+            </section>
 
-            <h2>Changes to This Privacy Policy</h2>
-            <p>
-              We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.
-            </p>
+            <section className="mb-8">
+              <h2 className="text-xl font-bold mb-4">7. Changes to This Privacy Policy</h2>
+              <p className="mb-4">
+                We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.
+              </p>
+            </section>
 
-            <h2>Contact Us</h2>
-            <p>
-              If you have any questions about this Privacy Policy, please contact us at{" "}
-              <a href="mailto:hamzaalaouiismaili21@gmail.com" className="text-sky-600 hover:underline">
-                hamzaalaouiismaili21@gmail.com
-              </a>
-              .
-            </p>
+            <section className="mb-8">
+              <h2 className="text-xl font-bold mb-4">8. Contact Us</h2>
+              <p className="mb-4">
+                If you have any questions about this Privacy Policy, please contact us at{" "}
+                <a href="mailto:hamzaalaouiismaili21@gmail.com" className="text-sky-600 hover:underline">
+                  hamzaalaouiismaili21@gmail.com
+                </a>
+                .
+              </p>
+            </section>
           </div>
 
           <div className="mt-12 text-center">

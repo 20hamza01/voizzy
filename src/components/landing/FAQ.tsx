@@ -13,12 +13,8 @@ const faqs = [
     answer: "Voizzy helps you collect and display authentic testimonials from real customers, which builds trust with potential clients. Studies show that websites featuring customer testimonials see conversion rate improvements of 34% on average."
   },
   {
-    question: "Can I customize the testimonial collection forms?",
-    answer: "Absolutely! Voizzy allows you to fully customize your testimonial forms with your brand colors, logo, and preferred question format. You can collect text, audio, or video testimonials based on your needs."
-  },
-  {
     question: "How do I embed testimonials on my website?",
-    answer: "Voizzy makes it easy to embed your testimonials with just a few clicks. Simply generate an embed code from your dashboard and paste it onto your website. You can also use our WordPress plugin or integrate with popular website builders."
+    answer: "Voizzy makes it easy to embed your testimonials with just a few clicks. Simply generate an embed code from your dashboard and paste it onto your website."
   },
   {
     question: "Is there a limit to how many testimonials I can collect?",
