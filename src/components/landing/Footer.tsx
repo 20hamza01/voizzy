@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const footerNavigation = {
   company: [
     { name: "Features", href: "/#features" },
-    { name: "Contact", href: "mailto:hamzaalaouiismaili21@gmail.com" },
+    { name: "Contact", href: "mailto:contact@voizzy.io" },
   ],
   legal: [
     { name: "Privacy", href: "/privacy" },
