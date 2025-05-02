@@ -1,11 +1,13 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ContactForm } from "@/components/feedback/ContactForm";
 
 const footerNavigation = {
   company: [
     { name: "Features", href: "/#features" },
-    { name: "Contact", href: "mailto:contact@voizzy.io" },
   ],
   legal: [
     { name: "Privacy", href: "/privacy" },
@@ -14,6 +16,8 @@ const footerNavigation = {
 };
 
 const Footer = () => {
+  const [contactOpen, setContactOpen] = useState(false);
+
   return (
     <footer className="bg-white border-t border-gray-200" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">Footer</h2>
@@ -53,6 +57,21 @@ const Footer = () => {
                     )}
                   </li>
                 ))}
+                <li>
+                  <Dialog open={contactOpen} onOpenChange={setContactOpen}>
+                    <DialogTrigger asChild>
+                      <Button variant="link" className="text-sm leading-6 text-gray-600 hover:text-gray-900 p-0">
+                        Contact
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle>Contact Us</DialogTitle>
+                      </DialogHeader>
+                      <ContactForm />
+                    </DialogContent>
+                  </Dialog>
+                </li>
               </ul>
             </div>
             <div>
