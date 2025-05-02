@@ -24,7 +24,7 @@ serve(async (req) => {
   }
 
   try {
-    const { to, subject, html, from = "Voizzy <onboarding@resend.dev>" }: EmailRequest = await req.json();
+    const { to, subject, html, from = "Voizzy <contact@voizzy.io>" }: EmailRequest = await req.json();
 
     if (!to || !subject || !html) {
       return new Response(
@@ -41,6 +41,7 @@ serve(async (req) => {
       to,
       subject,
       html,
+      reply_to: "contact@voizzy.io"
     });
 
     if (error) {

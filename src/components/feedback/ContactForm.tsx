@@ -21,13 +21,14 @@ export function ContactForm() {
     
     try {
       await sendEmail({
-        to: "contact@yourbusiness.com", // Replace with your actual email address
+        to: "contact@voizzy.io",
         subject: `Contact form submission from ${name}`,
         html: `
           <h1>New Contact Message</h1>
           <p><strong>From:</strong> ${name} (${email})</p>
           <p><strong>Message:</strong></p>
           <p>${message.replace(/\n/g, '<br>')}</p>
+          <p>This message was sent from <a href="https://voizzy.io">voizzy.io</a></p>
         `,
       });
       
