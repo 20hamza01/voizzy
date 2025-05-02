@@ -87,7 +87,7 @@ const Terms = () => {
               <h2 className="text-xl font-bold mb-4">10. Contact Information</h2>
               <p className="mb-4">
                 For questions about these Terms, please contact us at{" "}
-                <a href="mailto:hamzaalaouiismaili21@gmail.com" className="text-sky-600 hover:underline">contact@voizzy.io</a>
+                <a href="mailto:contact@voizzy.io" className="text-sky-600 hover:underline">contact@voizzy.io</a>
                 .
               </p>
             </section>
