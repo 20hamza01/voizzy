@@ -85,7 +85,7 @@ const Privacy = () => {
               <h2 className="text-xl font-bold mb-4">8. Contact Us</h2>
               <p className="mb-4">
                 If you have any questions about this Privacy Policy, please contact us at{" "}
-                <a href="mailto:hamzaalaouiismaili21@gmail.com" className="text-sky-600 hover:underline">contact@voizzy.io</a>
+                <a href="mailto:contact@voizzy.io" className="text-sky-600 hover:underline">contact@voizzy.io</a>
                 .
               </p>
             </section>
