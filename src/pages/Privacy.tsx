@@ -1,12 +1,9 @@
-
 import React from "react";
 import LandingLayout from "@/components/layout/LandingLayout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-
 const Privacy = () => {
-  return (
-    <LandingLayout>
+  return <LandingLayout>
       <div className="py-16 bg-white">
         <div className="container max-w-4xl mx-auto px-6">
           <div className="mb-12 text-center">
@@ -88,9 +85,7 @@ const Privacy = () => {
               <h2 className="text-xl font-bold mb-4">8. Contact Us</h2>
               <p className="mb-4">
                 If you have any questions about this Privacy Policy, please contact us at{" "}
-                <a href="mailto:hamzaalaouiismaili21@gmail.com" className="text-sky-600 hover:underline">
-                  hamzaalaouiismaili21@gmail.com
-                </a>
+                <a href="mailto:hamzaalaouiismaili21@gmail.com" className="text-sky-600 hover:underline">contact@voizzy.io</a>
                 .
               </p>
             </section>
@@ -103,8 +98,6 @@ const Privacy = () => {
           </div>
         </div>
       </div>
-    </LandingLayout>
-  );
+    </LandingLayout>;
 };
-
 export default Privacy;
