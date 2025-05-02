@@ -43,15 +43,9 @@ const Navbar = () => {
           <SheetTitle className="text-left text-sky-500">Voizzy</SheetTitle>
         </SheetHeader>
         <div className="flex flex-col gap-4 py-6">
-          <Link to="/features" className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md" onClick={() => setIsOpen(false)}>
-            Features
-          </Link>
-          <Link to="/pricing" className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md" onClick={() => setIsOpen(false)}>
-            Pricing
-          </Link>
-          <Link to="/example-wall" className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md" onClick={() => setIsOpen(false)}>
-            Example Wall
-          </Link>
+          
+          
+          
           
           <div className="h-[1px] bg-border my-2"></div>
           
@@ -66,7 +60,7 @@ const Navbar = () => {
                 Sign out
               </Button>
             </> : <>
-              <Link to="/login" className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md" onClick={() => setIsOpen(false)}>
+              <Link to="/login" onClick={() => setIsOpen(false)} className="text-sm font-medium py-2 hover:bg-accent rounded-md mx-[10px] px-[90px]">
                 Sign in
               </Link>
               <Link to="/register" className="text-sm font-medium px-4 py-2 hover:bg-accent rounded-md" onClick={() => setIsOpen(false)}>
