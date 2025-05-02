@@ -21,13 +21,13 @@ export function ContactForm() {
     
     try {
       await sendEmail({
-        to: "your-email@example.com", // Change this to your email address
+        to: "contact@yourbusiness.com", // Replace with your actual email address
         subject: `Contact form submission from ${name}`,
         html: `
           <h1>New Contact Message</h1>
           <p><strong>From:</strong> ${name} (${email})</p>
           <p><strong>Message:</strong></p>
-          <p>${message}</p>
+          <p>${message.replace(/\n/g, '<br>')}</p>
         `,
       });
       
